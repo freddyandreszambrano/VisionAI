@@ -4,12 +4,10 @@ from PIL import Image, ImageTk
 import numpy as np
 import tensorflow as tf
 
-from vision import entrenar_modelo
-
 
 # Cargar el modelo previamente entrenado
-model = entrenar_modelo()
-
+model = tf.keras.models.load_model('my_model.keras')
+image = None
 def preprocess_image(image):
     # Convertir la imagen a una matriz NumPy
      # Convertir la imagen a escala de grises
@@ -23,29 +21,57 @@ def preprocess_image(image):
 
 
 def load_image():
+    global image
     file_path = filedialog.askopenfilename()
     if file_path:
         temp_image_path = 'temp_image.jpg'
         Image.open(file_path).save(temp_image_path)
         image = Image.open(temp_image_path)
-        image = preprocess_image(image)
+        #image = preprocess_image(image)
         #image_for_display = Image.fromarray((image[0] * 255).astype(np.uint8))  # Convertir imagen procesada a valores de 0 a 255
-        image_for_display = Image.fromarray((image[0, ..., 0] * 255).astype(np.uint8)) 
+        image_for_display = Image.fromarray((np.array(image) * 255).astype(np.uint8))  # Convertir imagen procesada a valores de 0 a 255
         image_for_display = image_for_display.resize((200, 200))  # Redimensionar la imagen para mostrarla
         photo = ImageTk.PhotoImage(image_for_display)
         label.configure(image=photo)
         label.image = photo
         predict_button.config(state=tk.NORMAL)
+        return image
 
 def predict_image():
     global model
+    global image
     global label_result
-    image = preprocess_image(Image.open(filedialog.askopenfilename()))
-    prediction = model.predict(image)
+    # verificamos si ya se cargo una imagen previamente
+    if image is None:
+        label_result.config(text="Por favor, carga una imagen primero.")
+        return
+    # procesar la imagen 
+    #image = preprocess_image(Image.open(filedialog.askopenfilename()))
+    image_processed = preprocess_image(image)
+    # realizar la prediccion
+    prediction = model.predict(image_processed)
     class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
-    predicted_class = class_names[np.argmax(prediction)]
-    label_result.config(text=f"Prediction: {predicted_class}")
+    translations = {
+    'T-shirt/top': 'Camiseta',
+    'Trouser': 'Pantalón',
+    'Pullover': 'Suéter',
+    'Dress': 'Vestido',
+    'Coat': 'Abrigo',
+    'Sandal': 'Sandalia',
+    'Shirt': 'Camisa',
+    'Sneaker': 'Zapatilla',
+    'Bag': 'Bolso',
+    'Ankle boot': 'Bota de tobillo'
+    }
+
+    predicted_class_en = class_names[np.argmax(prediction)]
+    print('prediccion:', predicted_class_en)
+    # Buscar la traducción correspondiente en el diccionario
+    predicted_class_es = translations.get(predicted_class_en, predicted_class_en)
+
+    label_result.config(text=f"Prediction: {predicted_class_es}")
+
 
 root = tk.Tk()
 root.title("Fashion Image Classifier")

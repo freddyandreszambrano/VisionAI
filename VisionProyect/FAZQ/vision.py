@@ -36,18 +36,15 @@ def entrenar_modelo():
                   metrics=['accuracy'])
     #Entrenar el modelo 
     model.fit(train_images, train_labels, epochs=10, validation_split=0.2)
+
+    # guardar el modelo 
+    model.save('my_model.keras')        
+    print('modelo correctamente guardado')
+
+
     # Evaluar la precision 
     test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
     print('\nTest accuracy:', test_acc)
-
-if __name__ == "__main__":
-    # Ejecutar el entrenamiento solo si este archivo se ejecuta directamente
-    modelo_entrenado = entrenar_modelo()
-
-
-# Guardar el modelo en un archivo ---FALTA COMPLETAR ---
-
-
 
 
 # Realizar predicciones en el conjunto de test
@@ -70,5 +67,6 @@ if __name__ == "__main__":
 # plt.show()
 
 
-
-# Ejecutar la aplicación de la interfaz de usuario
+if __name__ == "__main__":
+    # Ejecutar el entrenamiento solo si este archivo se ejecuta directamente
+    modelo_entrenado = entrenar_modelo()
