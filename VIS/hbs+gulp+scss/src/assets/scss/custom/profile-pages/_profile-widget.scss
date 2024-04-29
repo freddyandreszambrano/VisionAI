@@ -1,0 +1,87 @@
+.list-main{
+    li{
+        border-bottom: 1px solid #EDEDED;
+        padding: 1rem 0;
+    }
+    li:last-child {
+        border-bottom: unset;
+    }
+}
+.iq-header{
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid #EDEDED;
+}
+.profile-img22{
+    margin-top: -4.375rem;
+}
+.user-post{
+    margin-right: 20px;
+    margin-left: 20px;
+    img{
+        border-radius: .5rem;
+    }
+}
+.iq-main{
+    position: relative;
+    margin-bottom: 2.5rem;
+    .iq-content{
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        border-radius: unset;
+        // border-radius: 1rem;
+    }
+}
+.iq-input-group{
+    .form-control{
+        background-color: #EDEDED;
+    }
+    .input-group-text{
+        background-color: #DBDBDB;
+    }
+}
+.iq-btn-icon {
+    padding: .25rem .5rem;
+    border: 5px solid #ffd4d4;
+    height: 50px;
+    width: 50px;
+    background: #FFFEF0;
+}
+.iq-grid{
+    display: grid;
+    grid-column-gap: 1.5rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@include media-breakpoint-down(xl){
+    .iq-grid{
+        display: grid;
+        grid-column-gap: 1.5rem ;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@include media-breakpoint-down(sm){
+    .iq-grid{
+        display: grid;
+        grid-column-gap: 1.5rem ;
+        grid-template-columns: repeat(1, minmax(0, 1fr)) ;
+    }
+    .iq-main{
+        .iq-content{
+            position: unset;
+            margin-top: 2rem;
+        }
+        .iq-header-img{
+            display: none;
+        }
+    }
+}
+
+.iq-break-chart{
+    position: absolute;
+    top: 28px;
+    right: 60px;
+}
