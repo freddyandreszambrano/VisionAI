@@ -1,0 +1,30 @@
+.iq-upcoming-cars{
+    .iq-car-details{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 1rem 0;
+    }
+    .iq-car-name{
+        padding-bottom: .5rem;
+        border-bottom: 1px solid $border-color;
+    }
+    .iq-car-price{
+        display: flex;
+        justify-content: space-between;
+        align-items: space-between;
+        margin-top: .5rem;
+    }
+}
+.iq-indicator{
+    .noUi-horizontal{
+        .noUi-handle{
+            top: -0.44rem;
+        }
+    }
+}
+.iq-oil-level{
+    div{
+        flex-wrap: wrap !important;
+    }
+}
