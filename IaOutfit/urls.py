@@ -26,5 +26,6 @@ urlpatterns = [
   
     path('Main/',include('Apps.Main.urls',namespace="Main") ),
     path('OutfitGeneration/',include('Apps.OutfitGeneration.urls',namespace="OutfitGeneration") ),
+    path('Accounts/',include('Apps.Accounts.urls',namespace="Account") ),
   
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
