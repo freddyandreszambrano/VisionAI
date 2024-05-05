@@ -1,2 +1,6 @@
 EntOutfit/
-__pycache__/
+**__pycache__/
+db.sqlite3
+Training Data/
+# ignoramos todos los arvhivos y carpetas con ese nombre 
+**temp/
