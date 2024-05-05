@@ -22,8 +22,9 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('prueba/', include('Outfit.urls')),
+    #path('prueba/', include('Outfit.urls')),
   
     path('Main/',include('Apps.Main.urls',namespace="Main") ),
+    path('OutfitGeneration/',include('Apps.OutfitGeneration.urls',namespace="OutfitGeneration") ),
   
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
