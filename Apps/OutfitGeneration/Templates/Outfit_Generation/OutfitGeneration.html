@@ -1,2 +1,91 @@
 {% extends 'components/base.html' %}
 
+{% block content %}
+  <!-- Existing code -->
+
+  <div class="card-transparent bg-white rounded mb-4">
+    <!-- Existing code -->
+
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-primary">Generar outfit</button>
+        <button class="btn btn-secondary" id="addFilter">Agregar filtro</button>
+      </div>
+      <div class="row mt-3" id="filterContainer">
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="filter1">
+            <label class="form-check-label" for="filter1">
+              Camisa
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="filter2">
+            <label class="form-check-label" for="filter2">
+              Pantalon
+            </label>
+          </div>
+        </div>
+        <!-- Add more filter checkboxes as needed -->
+      </div>
+    </div>
+
+    <div class="card-transparent bg-white rounded mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="card">
+                <img src="/static/image/outfit_prueba.jpg" class="card-img-top img-thumbnail" alt="Generated Outfit" style="width: 70%; height: 350px;">
+                <div class="card-body">
+                  <h5 class="card-title">Generated Outfit</h5>
+                  <p class="card-text">
+                    <strong>Prendas Usadas:</strong>
+                    <ul>
+                      <li>Pantalon</li>
+                      <li>Camisa</li>
+                      <!-- Add more filter names as needed -->
+                    </ul>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Existing code -->
+  </div>
+
+
+  <!-- Existing code -->
+
+  <script>
+    document.getElementById('addFilter').addEventListener('click', function() {
+      var filterContainer = document.getElementById('filterContainer');
+      var newFilterId = 'filter' + (filterContainer.childElementCount + 1);
+
+      var newFilter = document.createElement('div');
+      newFilter.className = 'col-lg-2 col-md-4 col-sm-6';
+
+      var formCheck = document.createElement('div');
+      formCheck.className = 'form-check';
+
+      var input = document.createElement('input');
+      input.className = 'form-check-input';
+      input.type = 'checkbox';
+      input.id = newFilterId;
+
+      var label = document.createElement('label');
+      label.className = 'form-check-label';
+      label.for = newFilterId;
+      label.textContent = 'Filter ' + (filterContainer.childElementCount + 1);
+
+      formCheck.appendChild(input);
+      formCheck.appendChild(label);
+      newFilter.appendChild(formCheck);
+      filterContainer.appendChild(newFilter);
+    });
+  </script>
+
+{% endblock %}
