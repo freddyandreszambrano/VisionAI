@@ -17,6 +17,7 @@
 
 
     {% block style_css %}
+    
     {% endblock %}
     
 </head>
@@ -645,8 +646,8 @@
             </div>
         </div>
         {% endblock content %}
-
-        <!-- Footer Section Start -->
+        
+        {% block footer %}
         <footer class="footer">
             <div class="footer-body">
                 <ul class="left-panel list-inline mb-0 p-0">
@@ -668,6 +669,9 @@
                 </div>
             </div>
         </footer>
+    
+        {% endblock %}
+        <!-- Footer Section Start -->
         <!-- Footer Section End -->
     </main>
 </body>

@@ -1,0 +1,43 @@
+{% extends 'components/Base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="card-header">
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-outline-primary" title="Go Back">REGRESAR</button>
+      </div>
+    </div>
+    <form class="row g-3">
+      <div class="mb-3">
+        <label for="imagen" class="form-label">Seleccionar imagen</label>
+        <input type="file" class="form-control" id="imagen" accept="image/*" required />
+      </div>
+      {% comment %} <button type="submit" class="btn btn-primary">Subir imagen</button> {% endcomment %}
+
+      <div class="col-md-4">
+        <label for="inputCity" class="form-label">Categoria</label>
+        <input type="text" class="form-control" id="inputCity" />
+      </div>
+      <div class="col-md-2">
+        <label for="inputState" class="form-label">Colores</label>
+        <div class="d-flex">
+          <label class="form-check-label" for="stateRed" style="background-color: #dc3545; width: 30px; height: 30px; border-radius: 50%; display: block;"></label>
+          <label class="form-check-label" for="stateBlue" style="background-color: #0d6efd; width: 30px; height: 30px; border-radius: 50%; display: block;"></label>
+          <label class="form-check-label" for="stateYellow" style="background-color: #ffc107; width: 30px; height: 30px; border-radius: 50%; display: block;"></label>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <label for="inputZip" class="form-label">Marca</label>
+        <input type="text" class="form-control" id="inputZip" />
+      </div>
+      <div class="col-md-2">
+        <label for="inputZip" class="form-label">Material</label>
+        <input type="text" class="form-control" id="inputZip" />
+      </div>
+
+      <div class="col-12 d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Registrar Prenda</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

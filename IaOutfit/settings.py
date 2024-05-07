@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Apps.OutfitGeneration',
     'Apps.OutfitSaving',
     'Apps.Accounts',
+    'Apps.Wardrobe',
 ]
 
 MIDDLEWARE = [
