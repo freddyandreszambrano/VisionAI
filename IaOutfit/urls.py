@@ -22,7 +22,6 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('prueba/', include('Outfit.urls')),
     path('saving/',include('Apps.OutfitSaving.urls',namespace="OutfitSaving") ),
     path('Main/',include('Apps.Main.urls',namespace="Main") ),
     path('OutfitGeneration/',include('Apps.OutfitGeneration.urls',namespace="OutfitGeneration") ),

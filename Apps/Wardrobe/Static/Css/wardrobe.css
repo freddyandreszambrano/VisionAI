@@ -1,5 +1,20 @@
-.container {
-    backdrop-filter: blur(5px) saturate(1.5);
-    background-color: rgba(255, 255, 255, 0.8); /* Set a base color */
-    margin-top: 5px; /* Adjust margin as needed */
-}
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  button span {
+    margin-left: 5px;
+  }
+  
