@@ -43,7 +43,7 @@
 
     <aside class="sidebar sidebar-default sidebar-two navs-pill col-lg-4">
       <div class="sidebar-header d-flex align-items-center justify-content-start">
-          <a href="../dashboard/index.html" class="navbar-brand">
+          <a href="{% url 'Main:main_view_tempale' %}" class="navbar-brand">
               <!-- Logo start -->
               <i class="bx bx-glasses fs-2"></i>
               <!-- logo End -->
@@ -51,20 +51,29 @@
       </div>
       <div class="sidebar-body pt-0 data-scrollbar">
           <div class="sidebar-list">
-              <ul class="navbar-nav iq-main-menu nav nav-tabs" id="sidebar-menu" role="tablist">
-                  <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="../dashboard/index.html" data-sidebar-toggle="tooltip" data-bs-placement="right" title="Home"><i class="bx bxs-home fs-4"></i> </a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" aria-selected="false" title="Agregar Outfits"><i class="bx bxs-message-square-add fs-4"></i>  </a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" aria-selected="false" title="Generar Outfits"><i class="bx bxs-bolt-circle fs-4"></i>  </a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" aria-selected="false" title="Guardar Outfits"><i class="bx bxs-bookmarks fs-"></i>  </a>
-                  </li>
-              </ul>
+            <ul class="navbar-nav iq-main-menu nav nav-tabs" id="sidebar-menu" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link {% if request.path == '/Wardrobe/' %}active{% endif %}" href="{% url 'Wardrobe:Wardrobe_Template' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Agregar Outfits">
+                    <i class="bx bxs-message-square-add fs-4"></i>
+                </a>
+            </li>
+              <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/Main/' %}active{% endif %}" href="{% url 'Main:main_view_tempale' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" title="Home">
+                      <i class="bx bxs-home fs-4"></i>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/OutfitGeneration/' %}active{% endif %}" href="{% url 'OutfitGeneration:Outfit_Generation_Template' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Generar Outfits">
+                      <i class="bx bxs-bolt-circle fs-4"></i>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/saving/' %}active{% endif %}" href="{% url 'OutfitSaving:Outfit_Saving_Template' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Guardar Outfits">
+                      <i class="bx bxs-bookmarks fs-4"></i>
+                  </a>
+              </li>
+          </ul>
+          
           </div>
       </div>
   </aside>
