@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% load static %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Outfit IA</title>
+    <link rel="stylesheet"  href="{% static '/Css/Login.css' %}">
+    <link rel="stylesheet"  href="{% static '/Css/Core/libs.min.css' %}">
+
+  </head>
+
+  <div class="wrapper">
+    <div class="container" id="container">
+      <div class="form-container sign-in-container">
+        {% block content %}
+        
+        {% endblock  %}
+      </div>
+    </div>
+  </div>
+  
+
+
+
+ <!-- Library Bundle Script -->
+ <script src="{% static 'assets/js/core/libs.min.js' %}"></script>
+
+ <!-- External Library Bundle Script -->
+ <script src="{% static 'assets/js/core/external.min.js' %}"></script>
+
+ <!-- mapchart Script -->
+ <script src="{% static 'assets/js/charts/vectore-chart.js' %}"></script>
+ <script src="{% static 'assets/js/charts/dashboard.js' %}" ></script>
+
+ <!-- fslightbox Script -->
+ <script src="{% static 'assets/js/plugins/fslightbox.js' %}"></script>
+
+ <!-- App Script -->
+ <script src="{% static 'assets/js/main.js' %}"></script>
+    {% comment %} <script src="../../assets/js/vrooom.js" defer></script> {% endcomment %}
+  </body>
+</html>

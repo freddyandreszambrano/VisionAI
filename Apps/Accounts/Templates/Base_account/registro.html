@@ -1,0 +1,21 @@
+{% extends "Base_account/Base_account.html" %}
+{% load static %}
+{% block content %}
+
+<form id="form-custom" action="{% url 'Account:registro' %}" method="POST" style="width: 200%; align-items: flex-end;">
+    {% csrf_token %}
+    <h1 style="margin-right: 20px;">Crear cuenta</h1>
+    <input style="width: 40%;" type="text" name="username"  placeholder="Email" />
+    <input style="width: 40%;" type="password" name="password1" placeholder="Password" />
+    {% comment %} <input style="width: 40%;" type="password" name="password2" placeholder="Confirmar Password" /> {% endcomment %}
+    <!-- Agregar más campos según sea necesario -->
+    <button style="margin-right: 35px;" class="button" type="submit">Crear cuenta</button>
+</form>
+
+<div class="overlay-panel overlay-right" style="background: linear-gradient(to right, #FF4B2B, #FF416C); color: #FFFFFF; width: 100%;">
+    <h1>Hola, Bienvenido!</h1>
+    <p>Regístrate ingresando tus detalles personales y comienza tu viaje con nosotros</p>
+    <button onclick="window.location.href='{% url 'Account:login' %}'" class="button" style="border-color: #FFFFFF;">Iniciar sesión</button>
+</div>
+
+{% endblock %}
