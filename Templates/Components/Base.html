@@ -201,9 +201,6 @@
         </footer>
       {% endblock %}
     </main>
-    {% block scripts %}
-
-    {% endblock %}
     <!-- Library Bundle Script -->
     <script src="{% static 'Assets\js\core\libs.min.js' %}"></script>
     <!-- External Library Bundle Script -->
@@ -212,6 +209,9 @@
     <script src="{% static 'Assets\js\plugins\fslightbox.js' %}"></script>
     <!-- App Script -->
     <script src="{% static 'Assets\js\main.js' %}"></script>
+    {% block scripts %}
+
+    {% endblock %}
   </body>
 </html>
 "
