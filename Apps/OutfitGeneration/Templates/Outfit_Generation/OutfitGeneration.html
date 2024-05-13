@@ -1,91 +1,132 @@
 {% extends 'components/base.html' %}
 
 {% block content %}
-  <!-- Existing code -->
-
-  <div class="card-transparent bg-white rounded mb-4">
-    <!-- Existing code -->
-
-    <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center">
-        <button class="btn btn-primary">Generar outfit</button>
-        <button class="btn btn-secondary" id="addFilter">Agregar filtro</button>
+<div class="card-transparent bg-white rounded mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Filtros</h5> <!-- Título de los filtros -->
+    <div class="row mt-3" id="filterContainer">
+      <div class="col-lg-2 col-md-4 col-sm-6">
+        <h6>Prendas</h6>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="filter2">
+          <label class="form-check-label" for="filter2">
+            Camisa
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="filter2">
+          <label class="form-check-label" for="filter2">
+            Pantalon
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="filter2">
+          <label class="form-check-label" for="filter2">
+            Zapatos
+          </label>
+        </div>
+        <!-- Add more garment options as needed -->
       </div>
-      <div class="row mt-3" id="filterContainer">
-        <div class="col-lg-2 col-md-4 col-sm-6">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="filter1">
-            <label class="form-check-label" for="filter1">
-              Camisa
-            </label>
+      <div class="col-lg-2 col-md-4 col-sm-6">
+        <h6>Evento</h6>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="filter3">
+          <label class="form-check-label" for="filter3">
+            Fiesta
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="filter4">
+          <label class="form-check-label" for="filter4">
+            Boda
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="filter5">
+          <label class="form-check-label" for="filter5">
+            Deportivo
+          </label>
+        </div>
+        <!-- Add more event options as needed -->
+      </div>
+      <div class="col-lg-2 col-md-4 col-sm-6">
+        <h6>Clima</h6>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="filter6">
+          <label class="form-check-label" for="filter6">
+            Día
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="filter7">
+          <label class="form-check-label" for="filter7">
+            Tarde
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="filter8">
+          <label class="form-check-label" for="filter8">
+            Noche
+          </label>
+        </div>
+      </div>
+      <!-- Add more filter checkboxes as needed -->
+    </div>
+    <div class="d-flex justify-content-center align-items-center mb-3">
+      <button class="btn btn-primary">Generar outfit</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="card-transparent bg-white rounded mb-4">
+  <div class="card-body">
+    <h5 style="text-align: center;">Outfit Generado</h5>   
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="card mb-3">
+          <div class="card-body" style="width: 300px; height: 300px;"> <!-- Establecer el tamaño fijo del contenedor -->
+            <img src="https://www.retrofootball.es/media/wysiwyg/2015-16_F.C._BARCELONA_PRIMERA_-_2-removebg-preview.png" alt="Camisa" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
         </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="filter2">
-            <label class="form-check-label" for="filter2">
-              Pantalon
-            </label>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="card mb-3">
+          <div class="card-body" style="width: 300px; height: 300px;"> <!-- Establecer el tamaño fijo del contenedor -->
+            <img src="https://thumbs.dreamstime.com/b/pantalones-vaqueros-en-el-fondo-blanco-22262983.jpg" alt="Pantalon" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
         </div>
-        <!-- Add more filter checkboxes as needed -->
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="card mb-3">
+          <div class="card-body" style="width: 300px; height: 300px;"> <!-- Establecer el tamaño fijo del contenedor -->
+          <img src="https://bataec.vteximg.com.br/arquivos/ids/241620-302-302/8896639_1.jpg?v=638176259207530000" alt="Zapatos" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="card-transparent bg-white rounded mb-4">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-              <div class="card">
-                <img src="/static/image/outfit_prueba.jpg" class="card-img-top img-thumbnail" alt="Generated Outfit" style="width: 70%; height: 350px;">
-                <div class="card-body">
-                  <h5 class="card-title">Generated Outfit</h5>
-                  <p class="card-text">
-                    <strong>Prendas Usadas:</strong>
-                    <ul>
-                      <li>Pantalon</li>
-                      <li>Camisa</li>
-                      <!-- Add more filter names as needed -->
-                    </ul>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <!-- Existing code -->
   </div>
 
-
-  <!-- Existing code -->
-
-  <script>
-    document.getElementById('addFilter').addEventListener('click', function() {
-      var filterContainer = document.getElementById('filterContainer');
-      var newFilterId = 'filter' + (filterContainer.childElementCount + 1);
-
-      var newFilter = document.createElement('div');
-      newFilter.className = 'col-lg-2 col-md-4 col-sm-6';
-
-      var formCheck = document.createElement('div');
-      formCheck.className = 'form-check';
-
-      var input = document.createElement('input');
-      input.className = 'form-check-input';
-      input.type = 'checkbox';
-      input.id = newFilterId;
-
-      var label = document.createElement('label');
-      label.className = 'form-check-label';
-      label.for = newFilterId;
-      label.textContent = 'Filter ' + (filterContainer.childElementCount + 1);
-
-      formCheck.appendChild(input);
-      formCheck.appendChild(label);
-      newFilter.appendChild(formCheck);
-      filterContainer.appendChild(newFilter);
-    });
-  </script>
+  <div class="card-body">
+    <p class="card-text">
+      <strong>Prendas Usadas:</strong>
+      <ul>
+        <li>Pantalon</li>
+        <li>Camisa</li>
+        <!-- Add more filter names as needed -->
+      </ul>
+    </p>
+    <p class="card-text">
+      <strong>Evento</strong>
+      <ul>
+        <li>Deportivo</li>
+        <!-- Add more filter names as needed -->
+      </ul>
+    </p>        
+  </div>
+</div>
 
 {% endblock %}
