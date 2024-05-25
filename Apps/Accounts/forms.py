@@ -7,6 +7,10 @@ class LoginForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
 class CustomUserCreationForm(UserCreationForm):
+    # is_active = forms.BooleanField(required=False, initial=True)
+    # is_staff = forms.BooleanField(required=False, initial=True)
+    # is_superuser = forms.BooleanField(required=False, initial=False)
+
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
