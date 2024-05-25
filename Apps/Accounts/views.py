@@ -1,60 +1,43 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from .forms import LoginForm, CustomUserCreationForm
 from django.contrib import messages
-from django.contrib.auth.models import User
-
-# Create your views here.
-def show_Base_account_page(request):
-    return render(request, 'Base_account/Base_account.html')# test_login.py
-
-# def registro(request):
-#     if request.method == "POST":
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('Account:login')
-#     else:
-#         form = UserCreationForm()
-#     return render(request, 'Base_account/registro.html', {"form": form})
 
 
-def registro(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            # Verificar si el usuario ya existe
-            if User.objects.filter(username=username).exists():
-                messages.error(request, "Este usuario ya está registrado.")
-            else:
-                form.save()
-                # Autenticar al usuario recién registrado
-                user = authenticate(username=username, password=raw_password)
-                login(request, user)
-                messages.success(request, "Tu cuenta ha sido creada exitosamente. ¡Bienvenido!")
-                return redirect('Main:main_view')
-    else:
-        form = UserCreationForm()
-    return render(request, 'Base_account/registro.html', {"form": form})
-
-
-def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
+            # Aquí puedes procesar el formulario de inicio de sesión
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
-            return redirect('Main:main_view')
             if user is not None:
                 login(request, user)
-                return redirect('Account:registro')
-    
-    form = AuthenticationForm()
-    return render(request, 'Base_account/login.html', {"form": form})
-    
+
+            return redirect('Main:main_view')
+    else:
+        form = LoginForm()
+
+    return render(request, 'Base_account/login.html', {'form': form})
+
+
+
+
+def register(request):
+    data = {'form': CustomUserCreationForm()}
+
+    if request.method == 'POST':
+        user_create_form = CustomUserCreationForm(data = request.POST)
+
+        if user_create_form.is_valid():
+            user_create_form.save()
+            user = authenticate(username=user_create_form.cleaned_data['username'], password=user_create_form.cleaned_data['password1'])
+            return redirect('Main:main_view')    
+
+    return render(request, 'Base_account/registro.html', data)
+
 def logout_request(request):
     logout(request)
     return redirect('Account:login')
