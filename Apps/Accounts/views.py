@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, CustomUserCreationForm
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from .forms import LoginForm, CustomUserCreationForm, EditProfileForm
 from django.contrib import messages
 
 
@@ -18,13 +18,13 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-
-            return redirect('Main:main_view')
+                return redirect('Main:main_view')
     else:
         form = LoginForm()
 
+    # Si llega a este punto, significa que no se ha iniciado sesión o que el formulario no es válido
+    # Por lo tanto, redirigir de nuevo a la página de inicio de sesión
     return render(request, 'Base_account/login.html', {'form': form})
-
 
 
 def register(request):
@@ -60,40 +60,18 @@ def logout_request(request):
     logout(request)
     return redirect('Account:login')
 
+
+
 @login_required
 def edit_profile(request):
     user = request.user  # Obtener el usuario actualmente autenticado
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, instance=user)
+        form = EditProfileForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-
-            return redirect('Main:main_view') 
+            update_session_auth_hash(request, form.instance)  # Mantener la sesión activa después de cambiar la contraseña
+            return redirect('Main:main_view')
     else:
-        form = CustomUserCreationForm(instance=user)
+        form = EditProfileForm(instance=user)
     
     return render(request, 'Edit_profile/edit_profile.html', {'form': form})
-
-
-
-
-
-
-def get_initials_from_login_form(request, form):
-    username = form.cleaned_data['username']
-    user = User.objects.filter(username=username).first()
-    if user:
-        first_name = user.first_name
-        last_name = user.last_name
-        initials = f"{first_name[:1].upper()}{last_name[:1].upper()}" if first_name and last_name else "NA"
-        return initials
-    return "NA"
-
-
-
