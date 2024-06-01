@@ -1,7 +1,6 @@
 EntOutfit/
 db.sqlite3
 Training Data/
-class_indices.json/
 DataSet/
 #modelos de IA 
 IAoutfit.keras/
