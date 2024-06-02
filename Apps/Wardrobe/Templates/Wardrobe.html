@@ -41,12 +41,12 @@
     {% csrf_token %}
     <div class="container mt-4">
         <div class="form-group row">
-            <div class="col-md-6">
-                <label for="id_prenda">Prenda:</label>
-                {{ form.prenda }}
+            <div class="col-md-6" id="Cargar_Penda_Div">
+                <label for="id_prenda">Prenda {{ form.prenda }}</label>
             </div>
-            <div class="col-md-6">
-                <label for="id_categoria">Categoría:</label>
+            
+            <div class="col-md-6" id="Categoria_Div" >
+                <label for="id_categoria" >Categoría:</label>
                 {{ form.categoria }}
             </div>
         </div>
@@ -57,5 +57,9 @@
         </div>
     </div>
 </form>
+<!-- Importar TensorFlow.js -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.15.0/dist/tf.min.js"></script>
+
 <script src="{% static 'js/camera.js' %}"></script>
+<script src="{% static 'js/Clasificador_Ropa_IA.js' %}"></script>
 {% endblock %}
