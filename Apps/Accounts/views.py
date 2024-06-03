@@ -18,7 +18,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('Main:main_view')
+                return redirect('Main:Main_list')
     else:
         form = LoginForm()
 
@@ -47,7 +47,7 @@ def register(request):
             if user is not None:
                 login(request, user)
             
-            return redirect('Main:main_view')
+            return redirect('Main:Main_list')
     else:
         # Si no es una solicitud POST, devuelve el formulario vacío
         data['form'] = CustomUserCreationForm()
@@ -70,7 +70,7 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.instance)  # Mantener la sesión activa después de cambiar la contraseña
-            return redirect('Main:main_view')
+            return redirect('Main:Main_list')
     else:
         form = EditProfileForm(instance=user)
     

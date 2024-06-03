@@ -1,9 +1,11 @@
 
 from django.urls import path,include
-from . import views
+from Apps.Main.views import RopaListView
 
 app_name = 'Main'
+
+
 urlpatterns = [
-    path('', views.Main_view, name='main_view'),
-    path('', views.Details_view, name='ItemDetails_view'),
+    path('Main/list', RopaListView.as_view(), name='Main_list'),
 ]
+

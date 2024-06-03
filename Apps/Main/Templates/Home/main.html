@@ -1,108 +1,85 @@
-{% extends 'components/Base.html' %}
-{% load static %}
-
+{% extends 'components/Base.html' %} 
+{% load static %} 
 {% block content %}
-  <div class="col-lg-" >
-    <div class="d-flex justify-content-between align-items-center px-3 mb-3">
+<div class="col-lg-">
+  <div
+    class="d-flex justify-content-between align-items-center px-3 mb-3"
+  ></div>
+</div>
+<div class="card-transparent bg-white rounded mb-4">
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <h5 class="heading-title">Filtros</h5>
+      <button
+        class="button_add"
+        type="button"
+        style="height: 40px; width: 210px"
+        onclick="location.href='{% url 'Wardrobe:Wardrobe_view' %}'"
+      >
+        <span class="button__text">Agregar prenda</span>
+        <span
+          class="button__icon"
+          style="height: 183px; width: 61px; left: 24%"
+        >
+          <svg
+            class="svg"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line x1="12" x2="12" y1="5" y2="19"></line>
+            <line x1="5" x2="19" y1="12" y2="12"></line>
+          </svg>
+        </span>
+      </button>
     </div>
   </div>
-  <div class="card-transparent bg-white rounded mb-4">
-    <div class="card-header">
-      <div class="d-flex justify-content-between">
-        <h5 class="heading-title">Filtros </h5>
-        <button class="button_add" type="button" style="height: 40px; width: 224px;">
-          <span class="button__text">Agregar Prenda</span>
-          <span class="button__icon" style=" height: 183px; width: 61px; left: 24%;">
-            <svg class="svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-              <line x1="12" x2="12" y1="5" y2="19"></line>
-              <line x1="5" x2="19" y1="12" y2="12"></line>
-            </svg>
-          </span>
-        </button>
-      </div>
+  <div class="card-header">
+    <div class="radio-inputs">
+      <label class="radio">
+        <input type="radio" name="radio" checked="">
+        <span class="name">Camisa</span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name">Pantalon</span>
+      </label> 
+      <label class="radio">
+        <input type="radio" name="radio">
+        <span class="name">Camiseta</span>
+      </label>
       
-        {% comment %} <h6>Opciones de filtro:</h6> {% endcomment %}
-        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-          <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck1">CAMISA</label>
-        
-          <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck2">PANTALON</label>
-        
-          <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck3">CAMISETA</label>
-        
-          <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck4">ZAPATOS</label>
-        
-          <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck5">ACCESORIOS</label>
-        
-          <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btncheck6">HOODIES</label>
-        </div>
-   
     </div>
+  </div>
     
-    <div class="card-header swiper-container d-slider2">
-      <div class="swiper-wrapper">
-        <div class="card-group">
-          <div class="card mx-3">
-            <img src="https://i.pinimg.com/564x/9a/c6/f6/9ac6f6ed6cbf58dc8637e9ca46e479b2.jpg" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h6 class="card-title">Título de la imagen 1</h6>
-            </div>
-          </div>
-          <div class="card mx-3">
-            <img src="https://i.pinimg.com/564x/da/e6/22/dae62282d40d02e22f6ac201b9aaa0cc.jpg" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h6 class="card-title">Título de la imagen 2</h6>
-            </div>
-          </div>
-          <div class="card mx-3">
-            <img src="https://i.pinimg.com/564x/94/45/5c/94455c18ca205a141f50146d1855ecf7.jpg" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h6 class="card-title">Título de la imagen 3</h6>
-            </div>
-          </div>
-          <div class="card mx-3">
-            <img src="https://i.pinimg.com/564x/da/e6/22/dae62282d40d02e22f6ac201b9aaa0cc.jpg" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h6 class="card-title">Título de la imagen 2</h6>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card-header swiper-container d-slider2">
-      <div class="swiper-wrapper">
-        <div class="card-group">
-          <div class="card mx-3">
-            <img src="https://i.pinimg.com/564x/9a/c6/f6/9ac6f6ed6cbf58dc8637e9ca46e479b2.jpg" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h6 class="card-title">Título de la imagen 1</h6>
-            </div>
-          </div>
-          <div class="card mx-3">
-            <img src="https://i.pinimg.com/564x/da/e6/22/dae62282d40d02e22f6ac201b9aaa0cc.jpg" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h6 class="card-title">Título de la imagen 2</h6>
-            </div>
-          </div>
-          <div class="card mx-3">
-            <img src="https://i.pinimg.com/564x/94/45/5c/94455c18ca205a141f50146d1855ecf7.jpg" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h6 class="card-title">Título de la imagen 3</h6>
-            </div>
-          </div>
-          <div class="card mx-3">
-            <img src="https://i.pinimg.com/564x/da/e6/22/dae62282d40d02e22f6ac201b9aaa0cc.jpg" class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h6 class="card-title">Título de la imagen 2</h6>
-            </div>
-          </div>
-        </div>
+  </div>
+  <div class="card-header swiper-container d-slider2">
+    <div class="swiper-wrapper">
+      <div class="card-group">
+        {% for prenda in prendas %}
+                {% if forloop.counter0|divisibleby:4 %}
+                    <div class="w-100"></div>
+                {% endif %}
+                <div class="col-md-3 mb-3">
+                    <div class="card mx-3">
+                        <img
+                            src="{{ prenda.prenda.url }}"
+                            alt="Image of {{ prenda.categoria }}"
+                            class="card-img-top"
+                        />
+                        <div class="card-body">
+                            <h6 class="card-title">{{ prenda.categoria }}</h6>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

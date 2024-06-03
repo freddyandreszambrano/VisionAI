@@ -1,12 +1,11 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from Apps.Wardrobe.models import Clothes
 
 
-# Create your views here.
+class RopaListView(ListView):
+    model = Clothes
+    template_name = 'Home/main.html'
+    context_object_name = 'prendas'
 
-def Main_view(request):
-    return render(request, 'Home/main.html')
 
-def Details_view(request):
-    return render(request, 'Item_details/details.html')
-    
 

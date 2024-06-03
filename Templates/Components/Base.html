@@ -45,7 +45,7 @@
     <script>
       // Obtener el elemento de video
       var video = document.getElementById("videoPlayer");
-      // Ajustar la velocidad de reproducción del video
+      
       video.playbackRate = 2; // Esto acelerará el video al doble de velocidad
   </script>
   
@@ -53,7 +53,7 @@
 
     <aside class="sidebar sidebar-default sidebar-two navs-pill col-lg-4">
       <div class="sidebar-header d-flex align-items-center justify-content-start">
-          <a href="{% url 'Main:main_view' %}" class="navbar-brand">
+          <a href="{% url 'Main:Main_list' %}" class="navbar-brand">
               <!-- Logo start -->
               <img src="/static/image/Logo.jpg" alt="Logo" style="width:35px; text-aline:center">
               <!-- logo End -->
@@ -63,15 +63,15 @@
           <div class="sidebar-list">
             <ul class="navbar-nav iq-main-menu nav nav-tabs" id="sidebar-menu" role="tablist">
               <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/Main/' %}active{% endif %}" href="{% url 'Main:Main_list' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" title="Home">
+                      <i class="bx bxs-home fs-4"></i>
+                  </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link {% if request.path == '/Wardrobe/' %}active{% endif %}" href="{% url 'Wardrobe:Wardrobe_view' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Agregar Outfits">
                     <i class="bx bxs-message-square-add fs-4"></i>
                 </a>
             </li>
-              <li class="nav-item">
-                  <a class="nav-link {% if request.path == '/Main/' %}active{% endif %}" href="{% url 'Main:main_view' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" title="Home">
-                      <i class="bx bxs-home fs-4"></i>
-                  </a>
-              </li>
               <li class="nav-item">
                   <a class="nav-link {% if request.path == '/OutfitGeneration/' %}active{% endif %}" href="{% url 'OutfitGeneration:OutfitGeneration' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Generar Outfits">
                       <i class="bx bxs-bolt-circle fs-4"></i>
@@ -134,8 +134,7 @@
                     <a href="{% url 'Account:edit_profile' %}" class="nav-link py-0 d-flex align-items-center" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <div class="border p-3 bg-light rounded">
                         <h6 class="mb-0" style="color: #000;">{{ user.username }}</h6>
-                    </div>
-                                       
+                    </div>           
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li>
