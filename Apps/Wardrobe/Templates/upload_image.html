@@ -1,0 +1,58 @@
+{% extends 'components/Base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="videoElement">Vista de la cámara:</label>
+                <div id="cameraContainer" class="border border-dark p-2 rounded" style="width: 400px; height: 300px; overflow: hidden;">
+                    <video id="videoElement" class="w-100 h-100" autoplay></video>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" id="toggle_camara">Activar cámara</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="canvas">Foto Capturada:</label>
+                <div id="capturedImageContainer" class="border border-dark p-2 rounded" style="width: 400px; height: 300px; overflow: hidden;">
+                    <canvas id="canvas" class="w-100 h-100"></canvas>
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                <div class="row justify-content-between">
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary" id="tomar_foto">Tomar foto</button>
+                    </div>
+                    <div class="col-auto" id="eliminar_button_container" style="display: none;">
+                        <button type="button" class="btn btn-danger" id="eliminar_foto">Eliminar</button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-secondary" id="guardar_foto">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container mt-4">
+        <div class="form-group row">
+            <div class="col-md-6" id="Cargar_Penda_Div">
+                <label for="id_prenda">Prenda {{ form.prenda }}</label>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Cargar Prenda ..CONTINUE</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="{% static 'js/camera.js' %}"></script>
+<script src="{% static 'js/Clasificador_Ropa_IA.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'components/Base.html' %}
+{% load static %}
+{% block content %}
+
+<img src="{{ clothes.prenda.url }}" alt="Uploaded Image">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="col-md-6" id="Categoria_Div" >
+        <label for="id_categoria" >Categoría:</label>
+        {{ form.categoria }}
+    </div>
+    <div class="col-md-6" id="Categoria_Div" >
+        <label for="id_categoria" >Color dominate:</label>
+        {{ form.dominant_color }}
+    </div>
+    <button type="submit" class="btn btn-primary">save prenda</button>
+</form>
+
+<script src="{% static 'js/camera.js' %}"></script>
+<script src="{% static 'js/Clasificador_Ropa_IA.js' %}"></script>
+{% endblock %}
