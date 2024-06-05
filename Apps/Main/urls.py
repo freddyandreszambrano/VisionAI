@@ -4,6 +4,6 @@ from Apps.Main.views import RopaListView
 
 app_name = 'Main'
 urlpatterns = [
-    path('Main/list', RopaListView.as_view(), name='Main_list'),
+    path('', RopaListView.as_view(), name='Main_list'),
 ]
 

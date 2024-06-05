@@ -2,19 +2,49 @@
 {% load static %}
 {% block content %}
 
-<img src="{{ clothes.prenda.url }}" alt="Uploaded Image">
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="col-md-6" id="Categoria_Div" >
-        <label for="id_categoria" >Categoría:</label>
-        {{ form.categoria }}
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label for="canvas">Foto Capturada:</label>
+                <div id="capturedImageContainer" class="border border-dark p-2 rounded" style="width: 400px; height: 300px; overflow: hidden;">
+                    <img src="{{ clothes.prenda.url }}" alt="Uploaded Image" style="width: 100%; height: 100%; object-fit: cover;">    
+                </div>
+            </div>
+
+            {% comment %} <img src="{{ clothes.prenda.url }}" alt="Uploaded Image"> {% endcomment %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="container mt-4">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6" id="Categoria_Div">
+                            <div class="form-group">
+                                <label for="id_categoria">Categoría:</label>
+                                {{ form.categoria }}
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="Color_Div">
+                            <div class="form-group">
+                                <label for="id_dominant_color">Color dominante:</label>
+                                {{ form.dominant_color }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Guardar prenda</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+
+        </div>
     </div>
-    <div class="col-md-6" id="Categoria_Div" >
-        <label for="id_categoria" >Color dominate:</label>
-        {{ form.dominant_color }}
-    </div>
-    <button type="submit" class="btn btn-primary">save prenda</button>
-</form>
+</div>
 
 <script src="{% static 'js/camera.js' %}"></script>
 <script src="{% static 'js/Clasificador_Ropa_IA.js' %}"></script>
