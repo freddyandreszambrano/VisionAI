@@ -11,6 +11,8 @@ class Clothes(models.Model):
     ]
     prenda = models.ImageField(upload_to='Clothes/')
     categoria = models.CharField(max_length=50, choices=CATEGORIA_CHOICES)
+    dominant_color = models.CharField(max_length=50)
+    
 
     def __str__(self):
         return f"{self.categoria}"

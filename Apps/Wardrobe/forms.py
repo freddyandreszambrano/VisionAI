@@ -2,8 +2,12 @@ from django import forms
 from django.forms import ModelForm
 from Apps.Wardrobe.models import Clothes
 
-class ClothesForm(ModelForm):
-    
+class ClothesImageForm(forms.ModelForm):
     class Meta:
-        model= Clothes
-        fields = ['prenda', 'categoria']
+        model = Clothes
+        fields = ['prenda']
+
+class ClothesDetailsForm(forms.ModelForm):
+    class Meta:
+        model = Clothes
+        fields = ['categoria', 'dominant_color']

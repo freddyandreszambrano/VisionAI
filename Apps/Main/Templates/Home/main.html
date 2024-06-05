@@ -14,7 +14,7 @@
         class="button_add"
         type="button"
         style="height: 40px; width: 210px"
-        onclick="location.href='{% url 'Wardrobe:Wardrobe_view' %}'"
+        onclick="location.href='{% url 'Wardrobe:upload_image' %}'"
       >
         <span class="button__text">Agregar prenda</span>
         <span
@@ -74,6 +74,9 @@
                         />
                         <div class="card-body">
                             <h6 class="card-title">{{ prenda.categoria }}</h6>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">{{ prenda.dominant_color }}</h6>
                         </div>
                     </div>
                 </div>
