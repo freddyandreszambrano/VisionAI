@@ -27,7 +27,9 @@
                         <div class="col-md-6" id="Color_Div">
                             <div class="form-group">
                                 <label for="id_dominant_color">Color dominante:</label>
-                                {{ form.dominant_color }}
+                                {% for color in form.dominant_color.value %}
+                                    <div class="color-circle mr-2"  style="background-color: rgb({{ color.0 }}, {{ color.1 }}, {{ color.2 }});"></div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

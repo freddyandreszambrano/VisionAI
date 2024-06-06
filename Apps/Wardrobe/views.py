@@ -1,9 +1,11 @@
+import json
 from django.shortcuts import render, redirect
 from Apps.Wardrobe.forms import ClothesImageForm, ClothesDetailsForm
 from django.views.generic import CreateView, UpdateView
 from Apps.Wardrobe.models import Clothes
 from django.urls import reverse_lazy
 from Neural_Network_Model.Convolutional_Neural_Network.Predict_IA import Fn_Main
+from Neural_Network_Model.Get_colors.prediccion_colores_img import Fn_segmentar_y_analizar_prenda
 
 class ClothesImageView(CreateView):
     model = Clothes
@@ -14,10 +16,12 @@ class ClothesImageView(CreateView):
         self.object = form.save()
         # AQUI OCURRE LA MAGIA DE PREDICCIÓN  
         image_path = self.object.prenda.path
-        print(f'Imagen cargada: {image_path}')
         predicted_category = Fn_Main(image_path)
-        print(f'Clase predicción: {predicted_category}')
+        Colores_dominantes = Fn_segmentar_y_analizar_prenda(image_path)
+        
+        
         self.object.categoria = predicted_category
+        self.object.dominant_color = json.dumps(Colores_dominantes) 
         self.object.save()
         
         return redirect('Wardrobe:upload_details', pk=self.object.pk)
