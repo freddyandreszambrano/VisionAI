@@ -2,11 +2,10 @@ EntOutfit/
 db.sqlite3
 Training Data/
 DataSet/
-#modelos de IA 
-IAoutfit.keras/
-modelo.keras/
-my_model.keras/
+Clothes/
+
 
 # ignoramos todos los arvhivos y carpetas con ese nombre 
 **__pycache__/
 **temp/
+

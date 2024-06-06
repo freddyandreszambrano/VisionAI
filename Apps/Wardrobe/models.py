@@ -10,7 +10,7 @@ class Clothes(models.Model):
         # Agrega más opciones según sea necesario
     ]
     prenda = models.ImageField(upload_to='Clothes/')
-    categoria = models.CharField(max_length=50, choices=CATEGORIA_CHOICES)
+    categoria = models.CharField(max_length=50)
     dominant_color = models.CharField(max_length=50)
     
 

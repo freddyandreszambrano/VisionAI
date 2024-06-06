@@ -14,8 +14,6 @@
                     <img src="{{ clothes.prenda.url }}" alt="Uploaded Image" style="width: 100%; height: 100%; object-fit: cover;">    
                 </div>
             </div>
-
-            {% comment %} <img src="{{ clothes.prenda.url }}" alt="Uploaded Image"> {% endcomment %}
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="container mt-4">
