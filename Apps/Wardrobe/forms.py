@@ -11,3 +11,6 @@ class ClothesDetailsForm(forms.ModelForm):
     class Meta:
         model = Clothes
         fields = ['categoria', 'dominant_color']
+        widgets = {
+            'categoria': forms.TextInput(attrs={'readonly': True})
+        }
