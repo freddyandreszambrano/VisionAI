@@ -89,16 +89,11 @@
         <div class="col-md-3 mb-3">
           <div class="card mx-3">
             <img
-              src="{{ prenda.prenda.url }}"
-              alt="Image of {{ prenda.categoria }}"
+              src="{{ prenda.garment.url }}"
+              alt="Image of {{ prenda.category }}"
               class="card-img-top"
             />
-            <div class="card-body">
-              <h6 class="card-title">{{ prenda.categoria }}</h6>
-            </div>
-            <div class="card-body">
-              <h6 class="card-title">{{ prenda.dominant_color }}</h6>
-            </div>
+        
           </div>
         </div>
       {% endfor %}

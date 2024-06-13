@@ -15,13 +15,12 @@ class ClothesImageView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         # AQUI OCURRE LA MAGIA DE PREDICCIÓN  
-        image_path = self.object.prenda.path
+        image_path = self.object.garment.path
         predicted_category = Fn_Main(image_path)
         Colores_dominantes = Fn_segmentar_y_analizar_prenda(image_path)
         
-        
-        self.object.categoria = predicted_category
-        self.object.dominant_color = json.dumps(Colores_dominantes) 
+        self.object.category = predicted_category
+        self.object.dominant_color = json.dumps(Colores_dominantes)
         self.object.save()
         
         return redirect('Wardrobe:upload_details', pk=self.object.pk)
@@ -38,6 +37,5 @@ class ClothesDetailsView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['clothes'] = self.object
         return context
-    
-    
+
     
