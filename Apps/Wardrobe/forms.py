@@ -19,7 +19,5 @@ class ClothesDetailsForm(forms.ModelForm):
         widgets = {
             'type': forms.Select(),
         }
-
-        
-
+    
 

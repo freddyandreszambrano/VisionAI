@@ -73,7 +73,7 @@
                 </a>
             </li>
               <li class="nav-item">
-                  <a class="nav-link {% if request.path == '/OutfitGeneration/' %}active{% endif %}" href="{% url 'OutfitGeneration:OutfitGeneration' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Generar Outfits">
+                  <a class="nav-link {% if request.path == '/OutfitGeneration/' %}active{% endif %}" href="{% url 'OutfitGeneration:outfit_generation' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Generar Outfits">
                       <i class="bx bxs-bolt-circle fs-4"></i>
                   </a>
               </li>
@@ -199,6 +199,8 @@
     <script src="{% static 'Assets\js\plugins\fslightbox.js' %}"></script>
     <!-- App Script -->
     <script src="{% static 'Assets\js\main.js' %}"></script>
+    <!-- LIB -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {% block scripts %}
 
