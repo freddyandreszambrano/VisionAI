@@ -3,74 +3,38 @@
 {% block content %}
 <div class="card-transparent bg-white rounded mb-4">
   <div class="card-body">
-    <h5 class="card-title">Filtros</h5> <!-- Título de los filtros -->
+    <h5 class="card-title">Filtros</h5>
     <div class="row mt-3" id="filterContainer">
-      <div class="col-lg-2 col-md-4 col-sm-6">
-        <h6>Prendas</h6>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="filter2">
-          <label class="form-check-label" for="filter2">
-            Camisa
-          </label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="filter2">
-          <label class="form-check-label" for="filter2">
-            Pantalon
-          </label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" id="filter2">
-          <label class="form-check-label" for="filter2">
-            Zapatos
-          </label>
-        </div>
-        <!-- Add more garment options as needed -->
-      </div>
       <div class="col-lg-2 col-md-4 col-sm-6">
         <h6>Evento</h6>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter3">
-          <label class="form-check-label" for="filter3">
-            Fiesta
-          </label>
+          <input class="form-check-input" type="checkbox" id="filter_fiesta">
+          <label class="form-check-label" for="filter_fiesta">Fiesta</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter4">
-          <label class="form-check-label" for="filter4">
-            Boda
-          </label>
+          <input class="form-check-input" type="checkbox" id="filter_boda">
+          <label class="form-check-label" for="filter_boda">Boda</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter5">
-          <label class="form-check-label" for="filter5">
-            Deportivo
-          </label>
+          <input class="form-check-input" type="checkbox" id="filter_deportivo">
+          <label class="form-check-label" for="filter_deportivo">Deportivo</label>
         </div>
-        <!-- Add more event options as needed -->
       </div>
       <div class="col-lg-2 col-md-4 col-sm-6">
         <h6>Clima</h6>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter6">
-          <label class="form-check-label" for="filter6">
-            Día
-          </label>
+          <input class="form-check-input" type="checkbox" id="filter_dia">
+          <label class="form-check-label" for="filter_dia">Día</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter7">
-          <label class="form-check-label" for="filter7">
-            Tarde
-          </label>
+          <input class="form-check-input" type="checkbox" id="filter_tarde">
+          <label class="form-check-label" for="filter_tarde">Tarde</label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter8">
-          <label class="form-check-label" for="filter8">
-            Noche
-          </label>
+          <input class="form-check-input" type="checkbox" id="filter_noche">
+          <label class="form-check-label" for="filter_noche">Noche</label>
         </div>
       </div>
-      <!-- Add more filter checkboxes as needed -->
     </div>
     <div class="d-flex justify-content-center align-items-center mb-3">
       <button class="btn btn-primary">Generar outfit</button>
@@ -78,55 +42,39 @@
   </div>
 </div>
 
-
-
-
-
 <div class="card-transparent bg-white rounded mb-4">
   <div class="card-body">
-    <h5 style="text-align: center;">Outfit Generado</h5>   
+    <h5 style="text-align: center;">Outfit Generado</h5>
     <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-4">
-        <div class="card mb-3">
-          <div class="card-body" style="width: 300px; height: 300px;"> <!-- Establecer el tamaño fijo del contenedor -->
-            <img src="https://www.retrofootball.es/media/wysiwyg/2015-16_F.C._BARCELONA_PRIMERA_-_2-removebg-preview.png" alt="Camisa" style="width: 100%; height: 100%; object-fit: cover;">
+      {% if ctx_clothes %}
+        {% for outfit in ctx_clothes %}
+        <div class="row mb-4">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <h6>Prenda Superior</h6>
+            <div class="img-thumbnail">
+              <img src="{{ outfit.prenda_superior.garment }}" alt="Prenda Superior" class="img-fluid">
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-4">
-        <div class="card mb-3">
-          <div class="card-body" style="width: 300px; height: 300px;"> <!-- Establecer el tamaño fijo del contenedor -->
-            <img src="https://thumbs.dreamstime.com/b/pantalones-vaqueros-en-el-fondo-blanco-22262983.jpg" alt="Pantalon" style="width: 100%; height: 100%; object-fit: cover;">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <h6>Prenda Inferior</h6>
+            <div class="img-thumbnail">
+              <img src="{{ outfit.prenda_inferior.garment }}" alt="Prenda Inferior" class="img-fluid">
+            </div>
           </div>
+          {% if outfit.zapato %}
+            <div class="col-lg-4 col-md-6 mb-4">
+              <h6>Zapato</h6>
+              <div class="img-thumbnail">
+                <img src="{{ outfit.zapato.garment }}" alt="Zapato" class="img-fluid">
+              </div>
+            </div>
+          {% endif %}
         </div>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-4">
-        <div class="card mb-3">
-          <div class="card-body" style="width: 300px; height: 300px;"> <!-- Establecer el tamaño fijo del contenedor -->
-          <img src="https://bataec.vteximg.com.br/arquivos/ids/241620-302-302/8896639_1.jpg?v=638176259207530000" alt="Zapatos" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-        </div>
-      </div>
+      {% endfor %}
+      {% else %}
+        <p>No se pudo generar un outfit recomendado en este momento.</p>
+      {% endif %}
     </div>
   </div>
-
-  <div class="card-body">
-    <p class="card-text">
-      <strong>Prendas Usadas:</strong>
-      <ul>
-        <li>Pantalon</li>
-        <li>Camisa</li>
-        <!-- Add more filter names as needed -->
-      </ul>
-    </p>
-    <p class="card-text">
-      <strong>Evento</strong>
-      <ul>
-        <li>Deportivo</li>
-        <!-- Add more filter names as needed -->
-      </ul>
-    </p>        
-  </div>
 </div>
-
 {% endblock %}
