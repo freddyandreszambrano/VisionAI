@@ -43,8 +43,10 @@ outfits_seleccionados = []
 def Fn_seleccionar_prendas():
     global outfits_seleccionados
     outfits_seleccionados = []
+
     
     prendas = list(Clothes.objects.all())  # Convertir a lista para selección aleatoria
+    print(prendas)
     lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
     lista_categorias_inferior = ['Trouser']
     lista_categorias_zapatos = ['Sneaker', 'Sandal', 'Ankle boot']

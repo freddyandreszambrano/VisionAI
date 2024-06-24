@@ -13,6 +13,7 @@ class CustomUserCreationForm(UserCreationForm):
     # is_active = forms.BooleanField(required=False, initial=True)
     # is_staff = forms.BooleanField(required=False, initial=True)
     # is_superuser = forms.BooleanField(required=False, initial=False)
+    username = forms.CharField(label='Nombre de Usuario')
     password1 = forms.CharField(label='Contraseña:', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar Contraseña:', widget=forms.PasswordInput)
 

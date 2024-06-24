@@ -93,7 +93,15 @@
               alt="Image of {{ prenda.category }}"
               class="card-img-top"
             />
-        
+
+            <div class="card-body">
+              <!-- Botón para eliminar la prenda -->
+              <form method="post" action="{% url 'Main:delete_prenda' prenda.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+              </form>
+            </div>
+
           </div>
         </div>
       {% endfor %}

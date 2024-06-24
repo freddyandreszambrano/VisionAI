@@ -96,68 +96,50 @@
     <main class="main-content">
       <div class="position-relative">
         <!-- Nav Start -->
-        <nav class="nav navbar navbar-expand-lg navbar-light iq-navbar">
-          <div class="container-fluid navbar-inner">
-            {% comment %} <a href="../dashboard/index.html" class="navbar-brand">
-              <!-- Logo start -->
-              <img src="../assets/images/logo.png" class="img-fluid" alt="logo-big" />
-              <!-- Logo end -->
-            </a> {% endcomment %}
-            <div class="sidebar-toggle sidebar-toggle-responsive" data-toggle="sidebar" data-active="true">
-              <i class="icon">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+            <!-- Decorar el botón de la flecha -->
+            <div class="sidebar-toggle sidebar-toggle-responsive d-lg-none" data-toggle="sidebar" data-active="true">
+              <i class="icon arrow-button">
                 <svg width="20px" height="20px" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
                 </svg>
               </i>
             </div>
-            <div class="input-group search-input">
-              <span class="input-group-text" id="search-input">
-                <svg width="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="11.7669" cy="11.7666" r="8.98856" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></circle>
-                  <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </span>
-              <input type="search" class="form-control" placeholder="Search..." />
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon">
-                <span class="navbar-toggler-bar bar1 mt-2"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ms-auto align-items-center navbar-list mb-2 mb-lg-0">
-              <li class="nav-item dropdown">
-                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                  {% if user.is_authenticated %}
                     <!-- Mostrar información del usuario autenticado -->
                     <a href="{% url 'Account:edit_profile' %}" class="nav-link py-0 d-flex align-items-center" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <div class="border p-3 bg-light rounded">
                         <h6 class="mb-0" style="color: #000;">{{ user.username }}</h6>
-                    </div>           
+                      </div>           
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a class="dropdown-item" href="{% url 'Account:edit_profile' %}" style="color: #000;">Editar Perfil</a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{% url 'Account:logout' %}" style="color: #000;">Logout</a>
-                        </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'Account:edit_profile' %}" style="color: #000;">Editar Perfil</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider" />
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="{% url 'Account:logout' %}" style="color: #000;">Logout</a>
+                      </li>
                     </ul>
-                {% else %}
+                  {% else %}
                     <!-- Mostrar enlace de inicio de sesión si el usuario no está autenticado -->
                     <a href="{% url 'Account:login' %}" class="nav-link py-0" style="color: #000;">Iniciar sesión</a>
-                {% endif %}
-              </li>
-
-
+                  {% endif %}
+                </li>
               </ul>
             </div>
           </div>
-        </nav> <!-- Nav End -->
+        </nav>
+        
+        
+        
+        <!-- Nav End -->
       </div>
 
       {% block content %}
@@ -166,7 +148,7 @@
         </div>
       {% endblock %}
 
-      {% block footer %}
+      {% comment %} {% block footer %}
         <footer class="footer">
           <div class="footer-body">
             <ul class="left-panel list-inline mb-0 p-0">
@@ -189,7 +171,9 @@
             </div>
           </div>
         </footer>
-      {% endblock %}
+      {% endblock %} {% endcomment %}
+
+
     </main>
     <!-- Library Bundle Script -->
     <script src="{% static 'Assets\js\core\libs.min.js' %}"></script>
@@ -207,4 +191,65 @@
     {% endblock %}
   </body>
 </html>
-"
+<style>
+  /* Estilos básicos para el navbar */
+  .navbar .sidebar-toggle {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar .navbar-collapse {
+    display: flex;
+    flex-grow: 1;
+  }
+  
+  .navbar .navbar-list {
+    margin-left: auto; /* Mueve la lista de navegación al extremo derecho */
+  }
+  
+  .navbar .nav-item .nav-link {
+    color: #000; /* Color del texto */
+  }
+  
+  .navbar .dropdown-menu {
+    right: 0;
+    left: auto; /* Alinea el menú desplegable a la derecha */
+  }
+  
+  .navbar .nav-link .border {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Estilos para decorar el botón de la flecha */
+  .arrow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+
+  .arrow-button:hover {
+    background-color: #e9ecef;
+    transform: scale(1.1);
+  }
+  
+  .arrow-button:active {
+    background-color: #dee2e6;
+    transform: scale(0.9);
+  }
+  
+  .arrow-button svg {
+    fill: #007bff;
+  }
+  
+
+</style>
