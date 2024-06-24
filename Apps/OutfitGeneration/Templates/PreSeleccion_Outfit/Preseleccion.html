@@ -1,0 +1,11 @@
+{% extends 'components/base.html' %}
+
+{% load static %}
+{% block content %}
+    <h1 class="title_preseleccion_outfit">Seleccione una opción para generar el outfit</h1>
+    <div class="container_preseleccion_outfit">
+        <button class="btn_preseleccion_outfit" onclick="location.href='{% url 'OutfitGeneration:outfit_generation' %}'">Por teoría del color</button>
+        <button class="btn_preseleccion_outfit" onclick="location.href='{% url 'OutfitGeneration:Presentar_filtros' %}'"> Por filtro</button>
+        <button class="btn_preseleccion_outfit" onclick="location.href='{% url 'OutfitGeneration:seleccion_prendas_outfit_generacion' %}'"> Eleguir Prendas </button>
+    </div>
+{% endblock %}

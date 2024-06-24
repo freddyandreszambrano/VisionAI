@@ -1,0 +1,132 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn_go_back"  onclick="location.href='{% url 'OutfitGeneration:outfit_preseleccion' %}'">
+                <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024"><path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path></svg>
+                <span>Volver</span>
+            </button>
+            <div class="card">
+
+                <div class="card-header">
+                    <h3 class="card-title">Selecciona las prendas</h3>
+                </div>
+                <div class="card-body">   
+                    <!-- Carrusel de Prendas Superiores -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h4>Prendas Superiores</h4>
+                            <div id="carouselPrendasSuperiores" class="carousel slide" data-bs-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    {% for category in ctx_Prendas_superior %}
+                                        <li data-bs-target="#carouselPrendasSuperiores" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                                    {% endfor %}
+                                </ol>
+                                <div class="carousel-inner">
+                                    {% for category in ctx_Prendas_superior %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <div class="d-flex flex-column align-items-center position-relative" style="height: 300px;">
+                                                <div class="image-container position-relative d-block w-50">
+                                                    <img src="{{ category.garment.url }}" class="d-block w-50 mx-auto mb-3" alt="{{ category.id }},{{ category.category }}">
+                                                    <div class="selector-circle" data-id="{{ category.id }}" data-type="superior">
+                                                        <span class="checkmark">&#10003;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselPrendasSuperiores" role="button" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselPrendasSuperiores" role="button" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Carrusel de Prendas Inferiores -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h4>Prendas Inferiores</h4>
+                            <div id="carouselPrendasInferiores" class="carousel slide" data-bs-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    {% for category in ctx_Prendas_inferior %}
+                                        <li data-bs-target="#carouselPrendasInferiores" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                                    {% endfor %}
+                                </ol>
+                                <div class="carousel-inner">
+                                    {% for category in ctx_Prendas_inferior %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <div class="d-flex flex-column align-items-center position-relative" style="height: 300px;">
+                                                <div class="image-container position-relative d-block w-50">    
+                                                    <img src="{{ category.garment.url }}" class="d-block w-50 mx-auto mb-3" alt="{{ category.id }},{{ category.category }}">
+                                                    <div class="selector-circle" data-id="{{ category.id }}" data-type="inferior">
+                                                        <span class="checkmark">&#10003;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselPrendasInferiores" role="button" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselPrendasInferiores" role="button" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Carrusel de Zapatos -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h4>Zapatos</h4>
+                            <div id="carouselZapatos" class="carousel slide" data-bs-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    {% for category in ctx_zapato %}
+                                        <li data-bs-target="#carouselZapatos" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
+                                    {% endfor %}
+                                </ol>
+                                <div class="carousel-inner">
+                                    {% for category in ctx_zapato %}
+                                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                            <div class="d-flex flex-column align-items-center position-relative" style="height: 300px;">
+                                                <div class="image-container position-relative d-block w-50">
+                                                    <img src="{{ category.garment.url }}" class="d-block w-50 mx-auto mb-3" alt="{{ category.id }},{{ category.category }}">
+                                                    <div class="selector-circle" data-id="{{ category.id }}" data-type="zapatos">
+                                                        <span class="checkmark">&#10003;</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselZapatos" role="button" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselZapatos" role="button" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+<script src="{% static 'Js/seleccionar_prenda.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
