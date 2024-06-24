@@ -1,5 +1,7 @@
+import json
+from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 from Apps.Wardrobe.models import Clothes
 from Apps.OutfitGeneration.Logic.Combinacion_colores_outfit import Fn_combinacion_colores_outfit
 from django.urls import reverse_lazy
@@ -7,6 +9,10 @@ from django.shortcuts import get_object_or_404
 import webcolors
 import ast
 import random
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views import View
+
 
 def obtener_nombre_color(rgb_color):
     min_color_diff = float('inf')
@@ -97,3 +103,28 @@ class OutfitGenerationView(CreateView):
         outfit_seleccionado = Fn_seleccionar_prendas()
         context['ctx_clothes'] = outfit_seleccionado
         return context
+
+
+class PreseleccionView(TemplateView):
+    template_name = 'PreSeleccion_Outfit/Preseleccion.html'
+    
+    
+    
+class SeleccionPrendasOutfitGeneratorView(TemplateView):
+    model = Clothes
+    template_name = 'Seleccion_Prenda/SeleccionPrenda.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ctx_Prendas_superior'] = Clothes.objects.filter(category__in=['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt'])
+        context['ctx_Prendas_inferior'] = Clothes.objects.filter(category__in=['Trouser'])
+        context['ctx_zapato'] = Clothes.objects.filter(category__in=['Sneaker', 'Sandal', 'Ankle boot'])
+        return context
+
+
+
+class ProcesarSeleccionView(TemplateView):
+    template_name = 'outfit_preseleccionado/outfit_preseleccionado.html'
+    
+class Eleccion_filtrosView(TemplateView):
+    template_name = 'PresentarFiltros/Prensentar_filtros.html'
