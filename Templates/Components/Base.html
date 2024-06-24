@@ -20,6 +20,11 @@
     <link rel="stylesheet" href="{% static 'assets/css/Main.css' %}" />
     <!-- Design loader -->
     <link rel="stylesheet" href="{% static 'assets/css/loader.css' %}" />
+    <!-- Outfit Generation -->
+    <link rel="stylesheet" href="{% static 'assets/css/outfitGeneration.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Outfit_Generation/Outfit_Gen.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Outfit_Generation/Seleccion_Prenda.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Outfit_Generation/Presentar_filtros.css' %}">
 
     {% block style_css %}
 
@@ -73,7 +78,7 @@
                 </a>
             </li>
               <li class="nav-item">
-                  <a class="nav-link {% if request.path == '/OutfitGeneration/' %}active{% endif %}" href="{% url 'OutfitGeneration:outfit_generation' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Generar Outfits">
+                  <a class="nav-link {% if request.path == '/OutfitGeneration/' %}active{% endif %}" href="{% url 'OutfitGeneration:outfit_preseleccion' %}" data-sidebar-toggle="tooltip" data-bs-placement="right" data-bs-target="#sidebar-map" title="Generar Outfits">
                       <i class="bx bxs-bolt-circle fs-4"></i>
                   </a>
               </li>

@@ -2,43 +2,129 @@
 
 {% block content %}
 <div class="card-transparent bg-white rounded mb-4">
-  <div class="card-body">
-    <h5 class="card-title">Filtros</h5>
-    <div class="row mt-3" id="filterContainer">
-      <div class="col-lg-2 col-md-4 col-sm-6">
-        <h6>Evento</h6>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter_fiesta">
-          <label class="form-check-label" for="filter_fiesta">Fiesta</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter_boda">
-          <label class="form-check-label" for="filter_boda">Boda</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter_deportivo">
-          <label class="form-check-label" for="filter_deportivo">Deportivo</label>
-        </div>
+  
+  <button class="btn_go_back"  onclick="location.href='{% url 'OutfitGeneration:outfit_preseleccion' %}'">
+    <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024"><path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path></svg>
+    <span>VOLVER</span>
+  </button>
+  <div class="container d-flex justify-content-center">
+    <button class="btn_generate_outfitIA">
+      GENERAR OUTFIT
+      <div class="star-1">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xml:space="preserve"
+          version="1.1"
+          style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+          viewBox="0 0 784.11 815.53"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs></defs>
+          <g id="Layer_x0020_1">
+            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+            <path
+              class="fil0"
+              d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+            ></path>
+          </g>
+        </svg>
       </div>
-      <div class="col-lg-2 col-md-4 col-sm-6">
-        <h6>Clima</h6>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter_dia">
-          <label class="form-check-label" for="filter_dia">Día</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter_tarde">
-          <label class="form-check-label" for="filter_tarde">Tarde</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="filter_noche">
-          <label class="form-check-label" for="filter_noche">Noche</label>
-        </div>
+      <div class="star-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xml:space="preserve"
+          version="1.1"
+          style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+          viewBox="0 0 784.11 815.53"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs></defs>
+          <g id="Layer_x0020_1">
+            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+            <path
+              class="fil0"
+              d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+            ></path>
+          </g>
+        </svg>
       </div>
-    </div>
-    <div class="d-flex justify-content-center align-items-center mb-3">
-      <button class="btn btn-primary">Generar outfit</button>
-    </div>
+      <div class="star-3">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xml:space="preserve"
+          version="1.1"
+          style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+          viewBox="0 0 784.11 815.53"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs></defs>
+          <g id="Layer_x0020_1">
+            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+            <path
+              class="fil0"
+              d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+            ></path>
+          </g>
+        </svg>
+      </div>
+      <div class="star-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xml:space="preserve"
+          version="1.1"
+          style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+          viewBox="0 0 784.11 815.53"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs></defs>
+          <g id="Layer_x0020_1">
+            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+            <path
+              class="fil0"
+              d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+            ></path>
+          </g>
+        </svg>
+      </div>
+      <div class="star-5">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xml:space="preserve"
+          version="1.1"
+          style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+          viewBox="0 0 784.11 815.53"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs></defs>
+          <g id="Layer_x0020_1">
+            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+            <path
+              class="fil0"
+              d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+            ></path>
+          </g>
+        </svg>
+      </div>
+      <div class="star-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xml:space="preserve"
+          version="1.1"
+          style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+          viewBox="0 0 784.11 815.53"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs></defs>
+          <g id="Layer_x0020_1">
+            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+            <path
+              class="fil0"
+              d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+            ></path>
+          </g>
+        </svg>
+      </div>
+    </button>
   </div>
 </div>
 
