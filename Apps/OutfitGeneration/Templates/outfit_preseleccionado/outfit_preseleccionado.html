@@ -1,12 +1,40 @@
 {% extends 'components/base.html' %}
-{% load static %}
-
 {% block content %}
-    <div class="container">
+<div class="card">
+    <div class="card-body">
+        <h3 class="mb-4">Prendas Seleccionadas</h3>
         <div class="row">
-            <div class="col-md-12">
-                <div class="card">  
-                    <div class="card-header">    
-                        <h3 class="card-title">Outfit Generado en base a sus elecciones</h3>
+            {% if selected_items.superior %}
+            <div class="col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="{{ selected_items.superior.url }}" alt="{{ selected_items.superior.category }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Superior</h5>
                     </div>
-{% endblock%}
+                </div>
+            </div>
+            {% endif %}
+            {% if selected_items.inferior %}
+            <div class="col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="{{ selected_items.inferior.url }}" alt="{{ selected_items.inferior.category }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Inferior</h5>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if selected_items.zapatos %}
+            <div class="col-md-3">
+                <div class="card">
+                    <img class="card-img-top" src="{{ selected_items.zapatos.url }}" alt="{{ selected_items.zapatos.category }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Zapatos</h5>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

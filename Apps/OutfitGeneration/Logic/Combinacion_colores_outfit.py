@@ -42,4 +42,4 @@ def Fn_combinacion_colores_outfit(color1, color2):
 if __name__ == "__main__":
     color1 = "red"
     color2 = "blue"
-    print(Fn_combinacion_colores_outfit(color1, color2))  # Debería imprimir True si los colores son complementarios
+    print(Fn_combinacion_colores_outfit(color1, color2))  

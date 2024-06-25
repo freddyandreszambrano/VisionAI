@@ -1,8 +1,9 @@
 import json
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import CreateView, TemplateView
 from Apps.Wardrobe.models import Clothes
+from Apps.OutfitSaving.models import OutfitSaving 
 from Apps.OutfitGeneration.Logic.Combinacion_colores_outfit import Fn_combinacion_colores_outfit
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
@@ -125,8 +126,71 @@ class SeleccionPrendasOutfitGeneratorView(TemplateView):
 
 
 
-class ProcesarSeleccionView(TemplateView):
-    template_name = 'outfit_preseleccionado/outfit_preseleccionado.html'
-    
+
 class Eleccion_filtrosView(TemplateView):
     template_name = 'PresentarFiltros/Prensentar_filtros.html'
+
+
+
+
+class ProcessSelectionView(View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        request.session['selected_items'] = data
+        return JsonResponse({'status': 'success'})
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({'status': 'fail'})
+
+class ShowSelectionView(TemplateView):
+    template_name = 'outfit_preseleccionado/outfit_preseleccionado.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        selected_items = self.request.session.get('selected_items', {})
+        
+        categories = ['superior', 'inferior', 'zapatos']
+        for category in categories:
+            if category not in selected_items:
+                # Si falta una categoría, obtener una prenda aleatoria de esa categoría
+                print("No se ha seleccionado una prenda de la categoría " + category)
+                random_item = self.get_random_item_by_category(category)
+                selected_items[category] = random_item
+
+        # Agregar las selecciones al contexto
+        context['selected_items'] = selected_items
+        return context
+
+    def get_random_item_by_category(self, category):
+        # Obtener una prenda aleatoria de la categoría especificada del modelo Clothes
+        # Aquí asumimos que el modelo Clothes tiene un campo 'category' que representa la categoría de la prenda
+        random_item = Clothes.objects.filter(category=category).order_by('?').first()
+        
+        # Aquí podrías agregar más lógica según la estructura de tu modelo Clothes
+        # por ejemplo, seleccionar la prenda según alguna otra condición
+        
+        # Retornar la prenda aleatoria encontrada (o None si no se encontró ninguna)
+        return random_item
+    
+
+
+class GuardarOutfitView(View):
+    def post(self, request, *args, **kwargs):
+
+        # Obtener los IDs de las prendas
+        top_clothes_id = request.POST.get('top_clothes_id')
+        bottom_clothes_id = request.POST.get('bottom_clothes_id')
+        shoe_clothes_id = request.POST.get('shoe_clothes_id')
+
+        # Imprimir los IDs para verificar
+        print('ID de la prenda superior:', top_clothes_id)
+        print('ID de la prenda inferior:', bottom_clothes_id)
+        print('ID de la prenda de calzado:', shoe_clothes_id)
+
+        return JsonResponse({'message': 'Outfit guardado correctamente'})
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+

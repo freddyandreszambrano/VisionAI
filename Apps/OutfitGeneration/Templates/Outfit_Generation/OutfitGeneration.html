@@ -138,24 +138,34 @@
           <div class="col-lg-4 col-md-6 mb-4">
             <h6>Prenda Superior</h6>
             <div class="img-thumbnail">
-              <img src="{{ outfit.prenda_superior.garment }}" alt="Prenda Superior" class="img-fluid">
+              <img src="{{ outfit.prenda_superior.garment }}" alt="Prenda Superior" class="img-fluid" data-clothes-id="{{ outfit.prenda_superior.id }}">
             </div>
           </div>
           <div class="col-lg-4 col-md-6 mb-4">
             <h6>Prenda Inferior</h6>
             <div class="img-thumbnail">
-              <img src="{{ outfit.prenda_inferior.garment }}" alt="Prenda Inferior" class="img-fluid">
+              <img src="{{ outfit.prenda_inferior.garment }}" alt="Prenda Inferior" class="img-fluid" data-clothes-id="{{ outfit.prenda_inferior.id }}">
             </div>
           </div>
           {% if outfit.zapato %}
             <div class="col-lg-4 col-md-6 mb-4">
               <h6>Zapato</h6>
               <div class="img-thumbnail">
-                <img src="{{ outfit.zapato.garment }}" alt="Zapato" class="img-fluid">
+                <img src="{{ outfit.zapato.garment }}" alt="Zapato" class="img-fluid" data-clothes-id="{{ outfit.zapato.id }}">
               </div>
             </div>
           {% endif %}
+          <div class="col-lg-12 d-flex justify-content-center">
+            <button id="guardar-outfit-btn-{{ outfit.id }}" type="button" class="btn btn-lg btn-outline-warning rounded-pill guardar-outfit-btn"
+                    data-top-clothes-id="{{ outfit.prenda_superior.id }}"
+                    data-bottom-clothes-id="{{ outfit.prenda_inferior.id }}"
+                    data-shoe-clothes-id="{{ outfit.zapato.id }}">
+                  <i class="bx bx-save fa-lg"></i> Guardar Outfit
+            </button>
         </div>
+        
+        
+        
       {% endfor %}
       {% else %}
         <p>No se pudo generar un outfit recomendado en este momento.</p>
@@ -163,4 +173,49 @@
     </div>
   </div>
 </div>
+
+<script>
+// Captura el evento clic del botón
+document.addEventListener("DOMContentLoaded", function() {
+  // Selecciona todas las imágenes de las prendas
+  var clothesImages = document.querySelectorAll('.img-thumbnail img');
+
+  // Itera sobre cada imagen
+  clothesImages.forEach(function(img) {
+      // Agrega un evento de clic a cada imagen
+      img.addEventListener('click', function() {
+          // Obtiene el ID de la prenda del atributo de datos
+          var clothesId = this.dataset.clothesId;
+          
+          // Envía el ID de la prenda al servidor
+          enviarIdPrendaAlServidor(clothesId);
+      });
+  });
+});
+
+function enviarIdPrendaAlServidor(clothesId) {
+  // Realiza una solicitud POST al servidor
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', "{% url 'OutfitGeneration:Outfit_saving' %}", true); // Reemplaza '/ruta/de/tu/vista/' con la URL de tu vista
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+      if (xhr.status >= 200 && xhr.status < 300) {
+          // Maneja la respuesta del servidor si es necesario
+          console.log('ID de prenda enviado correctamente al servidor');
+      } else {
+          // Maneja errores si es necesario
+          console.error('Error al enviar el ID de prenda al servidor');
+      }
+  };
+  xhr.onerror = function() {
+      // Maneja errores de red si es necesario
+      console.error('Error de red al enviar el ID de prenda al servidor');
+  };
+  // Envía el ID de la prenda como parte del cuerpo de la solicitud
+  xhr.send('clothes_id=' + encodeURIComponent(clothesId));
+}
+
+
+
+</script>
 {% endblock %}
