@@ -10,5 +10,5 @@ urlpatterns = [
     path('Presentar_filtros/', Eleccion_filtrosView.as_view(), name='Presentar_filtros'),
     path('process_selection/', ProcessSelectionView.as_view(), name='process_selection'),
     path('show_selection/', ShowSelectionView.as_view(), name='show_selection'),
-    path('Outfit_saving/', GuardarOutfitView.as_view(), name='Outfit_saving'),
+    path('Outfit_saving/', GuardarOutfitView.as_view(), name='outfit_saving'),
 ]

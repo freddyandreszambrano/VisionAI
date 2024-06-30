@@ -13,6 +13,7 @@ import random
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 
 def obtener_nombre_color(rgb_color):
@@ -53,7 +54,7 @@ def Fn_seleccionar_prendas():
 
     
     prendas = list(Clothes.objects.all())  # Convertir a lista para selección aleatoria
-    print(prendas)
+
     lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
     lista_categorias_inferior = ['Trouser']
     lista_categorias_zapatos = ['Sneaker', 'Sandal', 'Ankle boot']
@@ -153,7 +154,6 @@ class ShowSelectionView(TemplateView):
         for category in categories:
             if category not in selected_items:
                 # Si falta una categoría, obtener una prenda aleatoria de esa categoría
-                print("No se ha seleccionado una prenda de la categoría " + category)
                 random_item = self.get_random_item_by_category(category)
                 selected_items[category] = random_item
 
@@ -173,24 +173,28 @@ class ShowSelectionView(TemplateView):
         return random_item
     
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class GuardarOutfitView(View):
     def post(self, request, *args, **kwargs):
+        prenda_superior_id = request.POST.get('prenda_superior_id')
+        prenda_inferior_id = request.POST.get('prenda_inferior_id')
+        zapato_id = request.POST.get('zapato_id')
 
-        # Obtener los IDs de las prendas
-        top_clothes_id = request.POST.get('top_clothes_id')
-        bottom_clothes_id = request.POST.get('bottom_clothes_id')
-        shoe_clothes_id = request.POST.get('shoe_clothes_id')
+        try:
+            prenda_superior = Clothes.objects.get(id=prenda_superior_id)
+            prenda_inferior = Clothes.objects.get(id=prenda_inferior_id)
+            zapato = Clothes.objects.get(id=zapato_id) if zapato_id else None
 
-        # Imprimir los IDs para verificar
-        print('ID de la prenda superior:', top_clothes_id)
-        print('ID de la prenda inferior:', bottom_clothes_id)
-        print('ID de la prenda de calzado:', shoe_clothes_id)
+            outfit = Clothes(prenda_superior, prenda_inferior=prenda_inferior, zapato=zapato)
+            outfit.save()
 
-        return JsonResponse({'message': 'Outfit guardado correctamente'})
+            return JsonResponse({'success': True})
+        except Clothes.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Prenda no encontrada'})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
 
-    def get(self, request, *args, **kwargs):
-        return JsonResponse({'error': 'Método no permitido'}, status=405)
+        return JsonResponse({'success': False, 'error': 'Método no permitido'})
 
 
 
