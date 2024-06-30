@@ -1,0 +1,98 @@
+{% extends 'components/Base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card-header swiper-container d-slider2">
+    <h1 class="heading-title" style="text-align: center;">Detalle de Prenda</h1>
+    <div class="swiper-wrapper" style="display: flex; flex-wrap: wrap;">
+        <div class="card-group" id="prendas-list">
+            <div class="col-md-3 mb-3 prenda-item" data-category="{{ prenda.category }}" style="flex: 1 0 21%; margin: 10px;">
+                <div class="card mx-3" style="width: 200%; height: 100%;">
+                    <div class="row no-gutters">
+                        <div class="col-md-6" style="display: flex; justify-content: center; align-items: center;">
+                            <div class="image-container">
+                                <img
+                                    src="{{ prenda.garment.url }}"
+                                    alt="Image of {{ prenda.category }}"
+                                    class="card-img"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <h3 class="card-title" style="color: Red;">Categoría: <h4>{{ prenda.category }}</h4> </h3>
+                                <h3 class="card-title" style="color: Red;">Tipo: <h4>{{ prenda.type }}</h4> </h3>
+                                <h3 class="card-title" style="color: Red;">Color Dominante:</h3>
+                                <div id="colorDisplay" class="color-box"></div>
+
+                                <div class="mt-3 d-flex justify-content-between">
+                                    <button type="button" class="btn btn-secondary" onclick="goBack()">Regresar</button>
+                                    <form method="post" action="{% url 'Main:delete_prenda' prenda.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .prenda-item {
+        flex: 1 0 21%; /* Ajusta el tamaño del contenedor de la tarjeta */
+        margin: 10px;
+    }
+
+    .image-container {
+        width: 100%; /* Ajusta el ancho del contenedor de la imagen */
+        height: 300px; /* Define una altura fija para el contenedor de la imagen */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-img {
+        max-width: 100%; /* Ajusta el tamaño máximo de la imagen */
+        max-height: 100%; /* Ajusta la altura máxima de la imagen */
+        object-fit: contain; /* Ajusta cómo se ajusta la imagen dentro de su contenedor */
+    }
+
+    .color-box {
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        border: 1px solid #000;
+        margin-top: 10px;
+    }
+</style>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        function displayColor(rgb) {
+            const [r, g, b] = rgb;
+            const colorBox = document.getElementById('colorDisplay');
+            const hexColor = rgbToHex(r, g, b);
+
+            colorBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            colorBox.title = `RGB: ${r}, ${g}, ${b} - HEX: ${hexColor}`;
+        }
+
+        const dominantColor = JSON.parse('{{ prenda.dominant_color|escapejs }}');
+        displayColor(dominantColor);
+    });
+</script>
+
+{% endblock content %}
