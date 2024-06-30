@@ -1,6 +1,6 @@
 
 from django.urls import path,include
-from Apps.OutfitGeneration.views import OutfitGenerationView, PreseleccionView,SeleccionPrendasOutfitGeneratorView,Eleccion_filtrosView,ProcessSelectionView,ShowSelectionView,GuardarOutfitView
+from Apps.OutfitGeneration.views import OutfitGenerationView, PreseleccionView,SeleccionPrendasOutfitGeneratorView,Eleccion_filtrosView,ProcessSelectionView,ShowSelectionView,GuardarOutfitView,FiltrosOutfitGenerationView
 
 app_name = 'OutfitGeneration'
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
     path('process_selection/', ProcessSelectionView.as_view(), name='process_selection'),
     path('show_selection/', ShowSelectionView.as_view(), name='show_selection'),
     path('Outfit_saving/', GuardarOutfitView.as_view(), name='outfit_saving'),
+    path('Filtros_outfit_generation/', FiltrosOutfitGenerationView.as_view(), name='filtros_outfit_generation'),
 ]

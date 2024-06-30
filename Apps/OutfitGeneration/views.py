@@ -1,100 +1,21 @@
 import json
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
 from django.views.generic import CreateView, TemplateView
 from Apps.Wardrobe.models import Clothes
 from Apps.OutfitSaving.models import OutfitSaving 
-from Apps.OutfitGeneration.Logic.Combinacion_colores_outfit import Fn_combinacion_colores_outfit
-from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404
-import webcolors
-import ast
-import random
+from Apps.OutfitGeneration.Logic.Load_Model import generate_outfits
+from Apps.OutfitGeneration.Logic.Get_outfits import Fn_generate_outfits
+from Apps.OutfitGeneration.Logic.filtros_outfi import function_generate_outfits
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+import logging
 
-
-def obtener_nombre_color(rgb_color):
-    min_color_diff = float('inf')
-    closest_color = None
-    for hex_color, color_name in webcolors.CSS3_HEX_TO_NAMES.items():
-        r_c, g_c, b_c = webcolors.hex_to_rgb(hex_color)
-        color_diff = sum(abs(component1 - component2) for component1, component2 in zip(rgb_color, (r_c, g_c, b_c)))
-        if color_diff < min_color_diff:
-            min_color_diff = color_diff
-            closest_color = color_name
-    return closest_color
-
-def procesar_prenda(prenda, lista_categorias):
-    if prenda.category in lista_categorias:
-        try:
-            rgb_color = ast.literal_eval(prenda.dominant_color)
-        except (SyntaxError, ValueError) as e:
-            return None
-        color_name = obtener_nombre_color(rgb_color)
-        return {
-            'garment': prenda.garment.url,
-            'category': prenda.category,
-            'dominant_color': color_name,
-            'type': prenda.type
-        }
-    return None
-
-def encontrar_prenda_aleatoria(prendas, lista_categorias):
-    prendas_filtradas = [prenda for prenda in prendas if prenda.category in lista_categorias]
-    return random.choice(prendas_filtradas) if prendas_filtradas else None
-
-outfits_seleccionados = []
-
-def Fn_seleccionar_prendas():
-    global outfits_seleccionados
-    outfits_seleccionados = []
-
+class PreseleccionView(TemplateView):
+    template_name = 'PreSeleccion_Outfit/Preseleccion.html'
     
-    prendas = list(Clothes.objects.all())  # Convertir a lista para selección aleatoria
 
-    lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
-    lista_categorias_inferior = ['Trouser']
-    lista_categorias_zapatos = ['Sneaker', 'Sandal', 'Ankle boot']
-
-    selected_outfits = []
-
-    while True:
-        prenda_superior = encontrar_prenda_aleatoria(prendas, lista_categorias_superior)
-        if not prenda_superior:
-            break
-        prenda_zapato = encontrar_prenda_aleatoria(prendas, lista_categorias_zapatos)
-
-        prenda_superior_info = procesar_prenda(prenda_superior, lista_categorias_superior)
-        zapato_info = procesar_prenda(prenda_zapato, lista_categorias_zapatos)
-        prenda_inferior = None
-
-        for prenda in prendas:
-            if prenda.category in lista_categorias_inferior:
-                prenda_inferior_info = procesar_prenda(prenda, lista_categorias_inferior)
-                if prenda_inferior_info and Fn_combinacion_colores_outfit(prenda_superior_info['dominant_color'], prenda_inferior_info['dominant_color']):
-                    prenda_inferior = prenda_inferior_info
-                    break
-
-        if not prenda_inferior:
-            prenda_inferior = procesar_prenda(encontrar_prenda_aleatoria(prendas, lista_categorias_inferior), lista_categorias_inferior)
-
-        outfit_seleccionado = {
-            'prenda_superior': prenda_superior_info,
-            'prenda_inferior': prenda_inferior,
-            'zapato': zapato_info
-        }
-
-        # Verificar si el outfit ya ha sido seleccionado previamente
-        if outfit_seleccionado in outfits_seleccionados:
-            break
-
-        selected_outfits.append(outfit_seleccionado)
-        outfits_seleccionados.append(outfit_seleccionado)
-
-    return selected_outfits
 
 class OutfitGenerationView(CreateView):
     model = Clothes
@@ -104,14 +25,42 @@ class OutfitGenerationView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        outfit_seleccionado = Fn_seleccionar_prendas()
-        context['ctx_clothes'] = outfit_seleccionado
+        all_clothes = Clothes.objects.all()
+        
+        lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
+        lista_categorias_inferior = ['Trouser']
+        lista_categorias_zapatos = ['Sneaker', 'Sandal', 'Ankle boot']
+        
+        prendas_superior = [g for g in all_clothes if g.category in lista_categorias_superior]
+        prendas_inferior = [g for g in all_clothes if g.category in lista_categorias_inferior]
+        prendas_zapatos = [g for g in all_clothes if g.category in lista_categorias_zapatos]
+
+        if not prendas_superior or not prendas_inferior or not prendas_zapatos:
+            context['error'] = "No hay suficientes prendas para generar un outfit."
+            return context
+
+        all_data_for_generation = [
+            {
+                'id': clothes.id,
+                'category': clothes.category,
+                'dominant_color': clothes.dominant_color,
+                'image': clothes.garment.url  # Asegúrate de que el campo 'garment' esté en el modelo Clothes
+            }
+            for clothes in all_clothes
+        ]
+
+        model_path = 'Outfit_Generator_Model.h5'
+        try:
+            outfits = generate_outfits(model_path, all_data_for_generation, num_outfits=3)  
+            context['outfits'] = outfits
+        except Exception as e:
+            logging.error("Error al generar outfits: %s", e)
+            context['error'] = "Hubo un error al generar outfits. Inténtelo de nuevo más tarde."
+
         return context
 
 
-class PreseleccionView(TemplateView):
-    template_name = 'PreSeleccion_Outfit/Preseleccion.html'
-    
+
     
     
 class SeleccionPrendasOutfitGeneratorView(TemplateView):
@@ -124,14 +73,6 @@ class SeleccionPrendasOutfitGeneratorView(TemplateView):
         context['ctx_Prendas_inferior'] = Clothes.objects.filter(category__in=['Trouser'])
         context['ctx_zapato'] = Clothes.objects.filter(category__in=['Sneaker', 'Sandal', 'Ankle boot'])
         return context
-
-
-
-
-class Eleccion_filtrosView(TemplateView):
-    template_name = 'PresentarFiltros/Prensentar_filtros.html'
-
-
 
 
 class ProcessSelectionView(View):
@@ -149,29 +90,90 @@ class ShowSelectionView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         selected_items = self.request.session.get('selected_items', {})
+        print(f'contexto de prendas selecciondos {selected_items}')
         
-        categories = ['superior', 'inferior', 'zapatos']
-        for category in categories:
-            if category not in selected_items:
-                # Si falta una categoría, obtener una prenda aleatoria de esa categoría
-                random_item = self.get_random_item_by_category(category)
-                selected_items[category] = random_item
+        if not selected_items:
+            context['error'] = "No se han seleccionado prendas."
+            return context
 
-        # Agregar las selecciones al contexto
-        context['selected_items'] = selected_items
+        model_path = 'Outfit_Generator_Model.h5'
+        all_clothes = Clothes.objects.all()
+
+        all_data_for_generation = []
+        for clothes in all_clothes:
+            if (selected_items.get('superior') and clothes.id == int(selected_items['superior']['id'])) or \
+            (selected_items.get('inferior') and clothes.id == int(selected_items['inferior']['id'])) or \
+            (selected_items.get('zapatos') and clothes.id == int(selected_items['zapatos']['id'])):
+                continue  
+
+            all_data_for_generation.append({
+                'id': clothes.id,
+                'category': clothes.category,
+                'dominant_color': clothes.dominant_color,
+                'image': clothes.garment.url
+            })
+        
+        print(f'data de todas las prendas exectos las seleccionadas   {all_data_for_generation}')
+
+        try:
+            outfits = Fn_generate_outfits(model_path, selected_items, all_data_for_generation, num_outfits=3)
+            context['selected_items'] = selected_items
+            context['outfits'] = outfits
+            
+           
+            
+        except Exception as e:
+            logging.error("Error al generar outfits: %s", e)
+            context['error'] = "Hubo un error al generar outfits. Inténtelo de nuevo más tarde."
+
+        return context
+    
+
+class Eleccion_filtrosView(TemplateView):
+    template_name = 'PresentarFiltros/Prensentar_filtros.html'
+
+class FiltrosOutfitGenerationView(CreateView):
+    model = Clothes
+    template_name = 'PresentarFiltros/outfit_filtros.html'
+    context_object_name = 'ctx_clothes'
+    fields = '__all__'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        all_clothes = Clothes.objects.all()
+        
+        lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
+        lista_categorias_inferior = ['Trouser']
+        lista_categorias_zapatos = ['Sneaker', 'Sandal', 'Ankle boot']
+        
+        prendas_superior = [g for g in all_clothes if g.category in lista_categorias_superior]
+        prendas_inferior = [g for g in all_clothes if g.category in lista_categorias_inferior]
+        prendas_zapatos = [g for g in all_clothes if g.category in lista_categorias_zapatos]
+
+        if not prendas_superior or not prendas_inferior or not prendas_zapatos:
+            context['error'] = "No hay suficientes prendas para generar un outfit."
+            return context
+
+        all_data_for_generation = [
+            {
+                'id': clothes.id,
+                'category': clothes.category,
+                'dominant_color': clothes.dominant_color,
+                'image': clothes.garment.url  # Asegúrate de que el campo 'garment' esté en el modelo Clothes
+            }
+            for clothes in all_clothes
+        ]
+
+        model_path = 'Outfit_Generator_Model.h5'
+        try:
+            outfits = function_generate_outfits(model_path, all_data_for_generation, num_outfits=3)  
+            context['outfits'] = outfits
+        except Exception as e:
+            logging.error("Error al generar outfits: %s", e)
+            context['error'] = "Hubo un error al generar outfits. Inténtelo de nuevo más tarde."
+
         return context
 
-    def get_random_item_by_category(self, category):
-        # Obtener una prenda aleatoria de la categoría especificada del modelo Clothes
-        # Aquí asumimos que el modelo Clothes tiene un campo 'category' que representa la categoría de la prenda
-        random_item = Clothes.objects.filter(category=category).order_by('?').first()
-        
-        # Aquí podrías agregar más lógica según la estructura de tu modelo Clothes
-        # por ejemplo, seleccionar la prenda según alguna otra condición
-        
-        # Retornar la prenda aleatoria encontrada (o None si no se encontró ninguna)
-        return random_item
-    
 
 @method_decorator(csrf_exempt, name='dispatch')
 class GuardarOutfitView(View):

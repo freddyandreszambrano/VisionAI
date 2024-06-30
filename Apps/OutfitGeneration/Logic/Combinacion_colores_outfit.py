@@ -1,5 +1,6 @@
 import webcolors
 import colorsys
+from tensorflow.keras.models import load_model # type: ignore
 
 def obtener_hsv(color_name):
     """

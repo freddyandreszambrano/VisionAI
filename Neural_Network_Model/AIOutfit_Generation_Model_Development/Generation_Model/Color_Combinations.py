@@ -88,8 +88,8 @@ test_loss, test_acc = model.evaluate(X_test, y_test)
 print("Precisión del modelo en el conjunto de datos de prueba:", test_acc)
 
 # Guardar el modelo entrenado en un archivo .h5
-# model.save('modelo_outfit.h5')
-# print("Modelo guardado como 'modelo_outfit.h5'.")
+model.save('Outfit_Generator_Model.h5')
+print("Modelo guardado como 'Outfit_Generator_Model.h5'.")
 
 # Ejemplo de predicción
 nueva_entrada = pd.DataFrame([['TRIADICA', '(255,69,0)', '(124,252,25)', '(138,43,226)']], columns=['INDICE', 'COLOR1', 'COLOR2', 'COLOR3'])
