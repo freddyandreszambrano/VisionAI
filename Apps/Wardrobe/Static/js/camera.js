@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteButton = document.getElementById('eliminar_foto');
     const saveButton = document.getElementById('guardar_foto');
     const canvas = document.getElementById('canvas');
-    const prendaInput = document.getElementById('id_prenda'); // Cambia esto si tu input de archivo tiene un ID diferente
+    const prendaInput = document.querySelector('#Cargar_Penda_Div input[type="file"]'); // Seleccionamos el input de tipo file dentro de #Cargar_Penda_Div
     let mediaStream = null;
 
     // Activar o desactivar la cámara
@@ -53,25 +53,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Guardar la imagen capturada y asignarla al input file
     saveButton.addEventListener('click', () => {
         if (mediaStream) {
-            const imageData = canvas.toDataURL('image/jpeg');
-
-            fetch(imageData)
-                .then(res => res.blob())
-                .then(blob => {
-                    const file = new File([blob], "captured_image.jpg", { type: "image/jpeg" });
-
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(file);
-                    prendaInput.files = dataTransfer.files;
-
-                    alert('Imagen capturada y asignada al formulario.');
-                })
-                .catch(error => {
-                    console.error('Error al crear el archivo:', error);
-                    alert('Hubo un error al procesar la imagen.');
-                });
+            if (captureButton.style.display === 'none') { // Verificar si la imagen ha sido capturada
+                const imageData = canvas.toDataURL('image/jpeg');
+    
+                fetch(imageData)
+                    .then(res => res.blob())
+                    .then(blob => {
+                        const file = new File([blob], "captured_image.jpg", { type: "image/jpeg" });
+    
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        prendaInput.files = dataTransfer.files;
+    
+                        alert('Imagen capturada y asignada al formulario.');
+                    })
+                    .catch(error => {
+                        console.error('Error al crear el archivo:', error);
+                        alert('Hubo un error al procesar la imagen.');
+                    });
+            } else {
+                alert('Debes tomar una foto antes de guardar.');
+            }
         } else {
             alert('Primero debes activar la cámara.');
         }
     });
+    
 });
