@@ -139,6 +139,18 @@
             zapatos: null,
             superior: null
         };
+        setTimeout(() => {
+            Swal.fire({
+                title: 'Recuerde',
+                text: 'Elija solamente 2 prendas para generar el outfit.',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInUp animate__faster'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutDown animate__faster'
+                }
+            });
+        }, 2000);
         const carousels = [
             {id: '#carouselPrendasInferiores', type: 'inferior'},
             {id: '#carouselZapatos', type: 'zapatos'},
@@ -173,6 +185,16 @@
                             category: category.trim(),
                             url: img.src // Añade la URL de la imagen seleccionada
                         };
+    
+                        // Validar si se han seleccionado más de dos prendas
+                        const selectedCount = Object.values(selectedItems).filter(item => item !== null).length;
+                        if (selectedCount > 2) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Recuerde elegir solamente 2 prendas para generar el outfit.'
+                            });
+                        }
     
                     } else {
                         const bootstrapCarousel = bootstrap.Carousel.getInstance(carouselElement);
@@ -216,7 +238,7 @@
             return cookieValue;
         }
     });
-</script>    
+</script>
 {% endblock %}
 
 {% block extra_js %}

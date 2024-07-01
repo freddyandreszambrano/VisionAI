@@ -4,7 +4,7 @@ import pandas as pd
 from keras.models import load_model
 from sklearn.preprocessing import OneHotEncoder
 import ast
-import json 
+import json
 
 def color_str_to_list(color_str):
     if color_str.startswith('[') and color_str.endswith(']'):
@@ -17,7 +17,7 @@ def normalize_colors(colors):
     normalized_colors = np.array(colors) / 255.0
     return normalized_colors
 
-def generate_outfits(model_path, garment_data, num_outfits=3):
+def generate_outfits(model_path, selected_items, garment_data, num_outfits=3):
     try:
         model = load_model(model_path)
     except Exception as e:
@@ -28,10 +28,6 @@ def generate_outfits(model_path, garment_data, num_outfits=3):
             Tipo_de_combinaciones = json.load(file)
     except Exception as e:
         print(f"Error al cargar el archivo de combinaciones: {e}")
-    
-    Combinacion_elegida = random.choice(list(Tipo_de_combinaciones.keys()))
-    print (f"Combinacion elegida: {Combinacion_elegida}")
-    
     
     lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
     lista_categorias_inferior = ['Trouser']
@@ -44,13 +40,16 @@ def generate_outfits(model_path, garment_data, num_outfits=3):
     outfits = []
 
     for _ in range(num_outfits):
-        prenda_superior = random.choice(prendas_superior)
+        if 'superior' in selected_items and selected_items['superior']:
+            prenda_superior = selected_items['superior']
+        else:
+            prenda_superior = random.choice(prendas_superior)
+
         prenda_inferior = random.choice(prendas_inferior)
         prenda_zapato = random.choice(prendas_zapatos)
         
-        
         Combinacion_elegida = random.choice(list(Tipo_de_combinaciones.keys()))
-        print (f"Tipo de combinacion elegida: {Combinacion_elegida}")
+        print(f"Tipo de combinacion elegida: {Combinacion_elegida}")
 
         entrada = pd.DataFrame(
             [[Combinacion_elegida, prenda_superior['dominant_color'], prenda_inferior['dominant_color'], prenda_zapato['dominant_color']]],
@@ -103,23 +102,32 @@ def generate_outfits(model_path, garment_data, num_outfits=3):
         
     return outfits
 
-
 if __name__ == "__main__":
     prenda_1 = {
+        'id': 1,
         'category': 'Coat',
-        'dominant_color': '[47,79,79]'
+        'dominant_color': '[47,79,79]',
+        'image': 'image_1.jpg'
     }
     prenda_2 = {
+        'id': 2,
         'category': 'Trouser',
-        'dominant_color': '[169,169,169]'
+        'dominant_color': '[169,169,169]',
+        'image': 'image_2.jpg'
     }
     prenda_3 = {
+        'id': 3,
         'category': 'Sneaker',
-        'dominant_color': '[210,180,140]'
+        'dominant_color': '[210,180,140]',
+        'image': 'image_3.jpg'
     }
 
     all_data_for_generation = [prenda_1, prenda_2, prenda_3]
     
+    selected_items = {
+        'superior': prenda_1  # Simular que el usuario ha seleccionado una prenda superior
+    }
+
     model_path = 'Outfit_Generator_Model.h5'
-    outfits = generate_outfits(model_path, all_data_for_generation)
+    outfits = generate_outfits(model_path, selected_items, all_data_for_generation)
     print(outfits)

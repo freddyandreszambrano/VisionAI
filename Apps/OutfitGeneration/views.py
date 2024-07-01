@@ -90,11 +90,22 @@ class ShowSelectionView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         selected_items = self.request.session.get('selected_items', {})
-        print(f'contexto de prendas selecciondos {selected_items}')
         
         if not selected_items:
             context['error'] = "No se han seleccionado prendas."
             return context
+        
+        if not (selected_items.get('superior') and selected_items.get('inferior') and selected_items.get('zapatos')):
+            context['error'] = "Debe elegir al menos una prenda de cada categoría (superior, inferior y zapatos)."
+            return context
+        
+        ids_to_fetch = [int(item['id']) for item in selected_items.values() if item]
+        selected_clothes = Clothes.objects.filter(id__in=ids_to_fetch)
+
+        for clothes in selected_clothes:
+            for key in selected_items:
+                if selected_items[key] and clothes.id == int(selected_items[key]['id']):
+                    selected_items[key]['dominant_color'] = clothes.dominant_color
 
         model_path = 'Outfit_Generator_Model.h5'
         all_clothes = Clothes.objects.all()
@@ -113,15 +124,12 @@ class ShowSelectionView(TemplateView):
                 'image': clothes.garment.url
             })
         
-        print(f'data de todas las prendas exectos las seleccionadas   {all_data_for_generation}')
 
+        context['selected_items'] = selected_items
+        print(f'data seleccion de items con color {selected_items}')
         try:
             outfits = Fn_generate_outfits(model_path, selected_items, all_data_for_generation, num_outfits=3)
-            context['selected_items'] = selected_items
             context['outfits'] = outfits
-            
-           
-            
         except Exception as e:
             logging.error("Error al generar outfits: %s", e)
             context['error'] = "Hubo un error al generar outfits. Inténtelo de nuevo más tarde."

@@ -23,12 +23,12 @@
     <div class="card">
         <div class="card-body">
             <h3 class="mb-4">Prendas Seleccionadas</h3>
-            <div class="row">
+            <div class="row justify-content-center">
                 {% if selected_items.superior %}
                 <div class="col-md-3">
-                    <div class="card">
-                        <img class="card-img-top" src="{{ selected_items.superior.url }}" alt="{{ selected_items.superior.category }}">
-                        <div class="card-body text-center">
+                    <div class="card text-center">
+                        <img class="card-img-top mx-auto d-block" src="{{ selected_items.superior.url }}" alt="{{ selected_items.superior.category }}" style="max-height: 200px;">
+                        <div class="card-body">
                             <h5 class="card-title">Superior</h5>
                         </div>
                     </div>
@@ -36,9 +36,9 @@
                 {% endif %}
                 {% if selected_items.inferior %}
                 <div class="col-md-3">
-                    <div class="card">
-                        <img class="card-img-top" src="{{ selected_items.inferior.url }}" alt="{{ selected_items.inferior.category }}">
-                        <div class="card-body text-center">
+                    <div class="card text-center">
+                        <img class="card-img-top mx-auto d-block" src="{{ selected_items.inferior.url }}" alt="{{ selected_items.inferior.category }}" style="max-height: 200px;">
+                        <div class="card-body">
                             <h5 class="card-title">Inferior</h5>
                         </div>
                     </div>
@@ -46,9 +46,9 @@
                 {% endif %}
                 {% if selected_items.zapatos %}
                 <div class="col-md-3">
-                    <div class="card">
-                        <img class="card-img-top" src="{{ selected_items.zapatos.url }}" alt="{{ selected_items.zapatos.category }}">
-                        <div class="card-body text-center">
+                    <div class="card text-center">
+                        <img class="card-img-top mx-auto d-block" src="{{ selected_items.zapatos.url }}" alt="{{ selected_items.zapatos.category }}" style="max-height: 200px;">
+                        <div class="card-body">
                             <h5 class="card-title">Zapatos</h5>
                         </div>
                     </div>
@@ -64,29 +64,31 @@
             <h3 class="mb-4">Outfits Generados</h3>
             <div class="row">
                 {% for outfit in outfits %}
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Outfit {{ forloop.counter }}</h5>
-                            <div class="card mb-2">
-                                <img class="card-img-top" src="{{ outfit.prenda_superior.image }}" alt="{{ outfit.prenda_superior.category }}">
-                                <div class="card-body text-center">
-                                    <p class="card-text">{{ outfit.prenda_superior.category }}</p>
+                            <div class="d-flex justify-content-between">
+                                <div class="card" style="width: 30%;">
+                                    <img class="card-img-top" src="{{ outfit.prenda_superior.image }}" alt="{{ outfit.prenda_superior.category }}">
+                                    <div class="card-body text-center">
+                                        <p class="card-text">{{ outfit.prenda_superior.category }}</p>
+                                    </div>
+                                </div>
+                                <div class="card" style="width: 30%;">
+                                    <img class="card-img-top" src="{{ outfit.prenda_inferior.image }}" alt="{{ outfit.prenda_inferior.category }}">
+                                    <div class="card-body text-center">
+                                        <p class="card-text">{{ outfit.prenda_inferior.category }}</p>
+                                    </div>
+                                </div>
+                                <div class="card" style="width: 30%;">
+                                    <img class="card-img-top" src="{{ outfit.zapato.image }}" alt="{{ outfit.zapato.category }}">
+                                    <div class="card-body text-center">
+                                        <p class="card-text">{{ outfit.zapato.category }}</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card mb-2">
-                                <img class="card-img-top" src="{{ outfit.prenda_inferior.image }}" alt="{{ outfit.prenda_inferior.category }}">
-                                <div class="card-body text-center">
-                                    <p class="card-text">{{ outfit.prenda_inferior.category }}</p>
-                                </div>
-                            </div>
-                            <div class="card mb-2">
-                                <img class="card-img-top" src="{{ outfit.zapato.image }}" alt="{{ outfit.zapato.category }}">
-                                <div class="card-body text-center">
-                                    <p class="card-text">{{ outfit.zapato.category }}</p>
-                                </div>
-                            </div>
-                            <div class="text-center">
+                            <div class="text-center mt-3">
                                 <p class="font-weight-bold">{{ outfit.resultado }}</p>
                             </div>
                         </div>
@@ -96,8 +98,9 @@
             </div>
         </div>
     </div>
-    {% else %}
+{% else %}
     <div class="alert alert-warning mt-4">No se han podido generar outfits. Inténtelo de nuevo más tarde.</div>
-    {% endif %}
+{% endif %}
+
 </div>
 {% endblock %}
