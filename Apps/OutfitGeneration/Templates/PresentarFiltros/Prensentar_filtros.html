@@ -8,7 +8,6 @@
           </button>
     </div>
     <div class="container">
-        
         <div class="card-transparent bg-white rounded mb-4">
             <div class="section over-hide z-bigger">
                 <div class="section over-hide z-bigger">
@@ -18,34 +17,32 @@
                                 <p class="mb-4 pb-2">Filtros</p>
                             </div>
                             <div class="col-12 pb-5">
-                                <input class="checkbox-tools" type="radio" name="tools" id="tool-1" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}">
+                                <input class="checkbox-tools" type="radio" name="tools" id="tool-1" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}" data-label="DIA">
                                 <label class="for-checkbox-tools" for="tool-1">
                                     <i class='bx bx-sun'></i>
                                     DIA
                                 </label>
 
-                                <input class="checkbox-tools" type="radio" name="tools" id="tool-2" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}">
+                                <input class="checkbox-tools" type="radio" name="tools" id="tool-2" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}" data-label="NOCHE">
                                 <label class="for-checkbox-tools" for="tool-2">
                                     <i class='bx bx-moon'></i>
                                     NOCHE
                                 </label>
 
-                                <input class="checkbox-tools" type="radio" name="tools" id="tool-3" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}">
+                                <input class="checkbox-tools" type="radio" name="tools" id="tool-3" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}" data-label="FIESTA">
                                 <label class="for-checkbox-tools" for="tool-3">
                                     <i class='bx bx-upside-down'></i>
                                     FIESTA
                                 </label>
-                                
-                                
 
-                                <input class="checkbox-tools" type="radio" name="tools" id="tool-4" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}">
+                                <input class="checkbox-tools" type="radio" name="tools" id="tool-4" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}" data-label="BODA">
                                 <label class="for-checkbox-tools" for="tool-4">
                                     <i class='bx bx-heart'></i>
 
                                     BODA
                                 </label> 
 
-                                <input class="checkbox-tools" type="radio" name="tools" id="tool-5" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}">
+                                <input class="checkbox-tools" type="radio" name="tools" id="tool-5" data-url="{% url 'OutfitGeneration:filtros_outfit_generation' %}" data-label="LIBRE">
                                 <label class="for-checkbox-tools" for="tool-5">
                                     <i class='bx bx-rocket'></i>
                                     LIBRE
@@ -66,11 +63,13 @@
                 radioButtons.forEach(function(radio) {
                     radio.addEventListener('click', function() {
                         const url = this.getAttribute('data-url');
-                        if (url) {
-                            window.location.href = url;
+                        const label = this.getAttribute('data-label');
+                        if (url && label) {
+                            const fullUrl = `${url}?label=${label}`;
+                            window.location.href = fullUrl;
                         }
                     });
                 });
             });
-        </script>
+    </script>
 {%  endblock %}
