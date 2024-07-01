@@ -4,31 +4,35 @@ import pandas as pd
 from keras.models import load_model
 from sklearn.preprocessing import OneHotEncoder
 import ast
+import json 
 
 def color_str_to_list(color_str):
-    """Convierte una cadena de color en una lista de valores RGB."""
-    print(f"Convirtiendo cadena de color: {color_str}")
     if color_str.startswith('[') and color_str.endswith(']'):
         color_list = np.array(ast.literal_eval(color_str))
-        print(f"Color convertido a lista: {color_list}")
         return color_list
     else:
         raise ValueError("Formato de cadena de color no válido: debe estar en formato '[R, G, B]'")
 
 def normalize_colors(colors):
-    """Normaliza los valores de color RGB."""
-    print(f"Normalizando colores: {colors}")
     normalized_colors = np.array(colors) / 255.0
-    print(f"Colores normalizados: {normalized_colors}")
     return normalized_colors
 
 def generate_outfits(model_path, garment_data, num_outfits=3):
-    """Genera múltiples outfits a partir de los datos de prendas y un modelo de IA."""
     try:
         model = load_model(model_path)
     except Exception as e:
         raise RuntimeError(f"Error al cargar el modelo: {e}")
-
+    
+    try:
+        with open('Color_combinations_type_classes.json', 'r') as file:
+            Tipo_de_combinaciones = json.load(file)
+    except Exception as e:
+        print(f"Error al cargar el archivo de combinaciones: {e}")
+    
+    Combinacion_elegida = random.choice(list(Tipo_de_combinaciones.keys()))
+    print (f"Combinacion elegida: {Combinacion_elegida}")
+    
+    
     lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
     lista_categorias_inferior = ['Trouser']
     lista_categorias_zapatos = ['Sneaker', 'Sandal', 'Ankle boot']
@@ -43,9 +47,13 @@ def generate_outfits(model_path, garment_data, num_outfits=3):
         prenda_superior = random.choice(prendas_superior)
         prenda_inferior = random.choice(prendas_inferior)
         prenda_zapato = random.choice(prendas_zapatos)
+        
+        
+        Combinacion_elegida = random.choice(list(Tipo_de_combinaciones.keys()))
+        print (f"Tipo de combinacion elegida: {Combinacion_elegida}")
 
         entrada = pd.DataFrame(
-            [['NEUTRAL', prenda_superior['dominant_color'], prenda_inferior['dominant_color'], prenda_zapato['dominant_color']]],
+            [[Combinacion_elegida, prenda_superior['dominant_color'], prenda_inferior['dominant_color'], prenda_zapato['dominant_color']]],
             columns=['INDICE', 'COLOR1', 'COLOR2', 'COLOR3']
         )
 
@@ -60,7 +68,7 @@ def generate_outfits(model_path, garment_data, num_outfits=3):
         ]).astype(np.float32)
 
         encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore', dtype=np.float32)
-        encoder.fit(pd.DataFrame([['NEUTRAL']], columns=['INDICE']))
+        encoder.fit(pd.DataFrame([[Combinacion_elegida]], columns=['INDICE']))
         nueva_entrada_indice = encoder.transform(entrada[['INDICE']])
 
         nueva_entrada_preparada = np.concatenate([nueva_entrada_indice, nueva_entrada_colors.reshape(1, -1)], axis=1)
