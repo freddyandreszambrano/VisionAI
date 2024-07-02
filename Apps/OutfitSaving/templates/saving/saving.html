@@ -3,23 +3,38 @@
 {% block content %}
   <div class="card">
     <div class="card-body">
-      <h5 class="heading-title text-center">Outfit generado</h5>
+      <h5 class="heading-title text-center">Outfits Guardados</h5>
       <div class="row">
-
-        {% comment %} aqui va la imagen del outfit {% endcomment %}
-        <div class="col-md-3">
-          <div class="card">
-              <img class="card-img-top">
-              <div class="card-body text-center">
-                <h5 class="card-title">outfit </h5>
+        {% if outfits %}
+          {% for outfit in outfits %}
+            <div class="col-md-6">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Outfit {{ forloop.counter }}</h5>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <img src="{{ outfit.top_clothes.garment.url }}" alt="Prenda Superior" class="img-fluid" />
+                    </div>
+                    <div class="col-md-4">
+                      <img src="{{ outfit.bottom_clothes.garment.url }}" alt="Prenda Inferior" class="img-fluid" />
+                    </div>
+                    <div class="col-md-4">
+                      <img src="{{ outfit.shoe_clothes.garment.url }}" alt="Zapato" class="img-fluid" />
+                    </div>
+                  </div>
+                  <form action="{% url 'OutfitSaving:delete_outfit' outfit.id %}" method="post" style="margin-top: 10px;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                  </form>
+                </div>
               </div>
-          </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No hay outfits guardados.</p>
+        {% endif %}
       </div>
-      </div>
-    
-      
     </div>
   </div>
- 
-    
+
 {% endblock %}

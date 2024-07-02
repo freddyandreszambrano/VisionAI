@@ -1,3 +1,4 @@
+# outfit_generator.py
 import random
 import numpy as np
 import pandas as pd
@@ -7,58 +8,64 @@ import ast
 import json
 
 def color_str_to_list(color_str):
-    if color_str.startswith('[') and color_str.endswith(']'):
-        color_list = np.array(ast.literal_eval(color_str))
-        return color_list
-    else:
+    try:
+        return np.array(ast.literal_eval(color_str))
+    except ValueError:
         raise ValueError("Formato de cadena de color no válido: debe estar en formato '[R, G, B]'")
 
 def normalize_colors(colors):
-    normalized_colors = np.array(colors) / 255.0
-    return normalized_colors
+    return np.array(colors) / 255.0
 
-def generate_outfits(model_path, selected_items, garment_data, num_outfits=3):
+def load_tipo_de_combinaciones(path='Color_combinations_type_classes.json'):
+    try:
+        with open(path, 'r') as file:
+            return json.load(file)
+    except Exception as e:
+        raise RuntimeError(f"Error al cargar el archivo de combinaciones: {e}")
+
+def generate_outfits(model_path, garment_data, num_outfits=3):
     try:
         model = load_model(model_path)
+        print(f"Modelo cargado correctamente desde {model_path}")
     except Exception as e:
         raise RuntimeError(f"Error al cargar el modelo: {e}")
-    
-    try:
-        with open('Color_combinations_type_classes.json', 'r') as file:
-            Tipo_de_combinaciones = json.load(file)
-    except Exception as e:
-        print(f"Error al cargar el archivo de combinaciones: {e}")
-    
-    lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
-    lista_categorias_inferior = ['Trouser']
-    lista_categorias_zapatos = ['Sneaker', 'Sandal', 'Ankle boot']
 
-    prendas_superior = [g for g in garment_data if g['category'] in lista_categorias_superior]
-    prendas_inferior = [g for g in garment_data if g['category'] in lista_categorias_inferior]
-    prendas_zapatos = [g for g in garment_data if g['category'] in lista_categorias_zapatos]
+    tipo_de_combinaciones = load_tipo_de_combinaciones()
+    print(f"Tipo de combinaciones cargado: {tipo_de_combinaciones}")
+    
+    categorias = {
+        'superior': ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt'],
+        'inferior': ['Trouser'],
+        'zapatos': ['Sneaker', 'Sandal', 'Ankle boot']
+    }
+
+    prendas = {key: [g for g in garment_data if g['category'] in categorias[key]] for key in categorias}
+
+    for key, value in prendas.items():
+        print(f"{key.capitalize()} clothes: {value}")
 
     outfits = []
 
     for _ in range(num_outfits):
-        if 'superior' in selected_items and selected_items['superior']:
-            prenda_superior = selected_items['superior']
-        else:
-            prenda_superior = random.choice(prendas_superior)
-
-        prenda_inferior = random.choice(prendas_inferior)
-        prenda_zapato = random.choice(prendas_zapatos)
+        prenda_superior = random.choice(prendas['superior'])
+        prenda_inferior = random.choice(prendas['inferior'])
+        prenda_zapato = random.choice(prendas['zapatos'])
         
-        Combinacion_elegida = random.choice(list(Tipo_de_combinaciones.keys()))
-        print(f"Tipo de combinacion elegida: {Combinacion_elegida}")
+        print(f"Selected clothes - Superior: {prenda_superior}, Inferior: {prenda_inferior}, Zapato: {prenda_zapato}")
+        
+        combinacion_elegida = random.choice(list(tipo_de_combinaciones.keys()))
+        print(f"Tipo de combinacion elegida: {combinacion_elegida}")
 
         entrada = pd.DataFrame(
-            [[Combinacion_elegida, prenda_superior['dominant_color'], prenda_inferior['dominant_color'], prenda_zapato['dominant_color']]],
+            [[combinacion_elegida, prenda_superior['dominant_color'], prenda_inferior['dominant_color'], prenda_zapato['dominant_color']]],
             columns=['INDICE', 'COLOR1', 'COLOR2', 'COLOR3']
         )
 
         entrada['COLOR1'] = [color_str_to_list(entrada['COLOR1'].values[0])]
         entrada['COLOR2'] = [color_str_to_list(entrada['COLOR2'].values[0])]
         entrada['COLOR3'] = [color_str_to_list(entrada['COLOR3'].values[0])]
+
+        print(f"Entrada colores: {entrada}")
 
         nueva_entrada_colors = np.concatenate([
             normalize_colors(entrada['COLOR1'][0]),
@@ -67,34 +74,23 @@ def generate_outfits(model_path, selected_items, garment_data, num_outfits=3):
         ]).astype(np.float32)
 
         encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore', dtype=np.float32)
-        encoder.fit(pd.DataFrame([[Combinacion_elegida]], columns=['INDICE']))
+        encoder.fit(pd.DataFrame([[combinacion_elegida]], columns=['INDICE']))
         nueva_entrada_indice = encoder.transform(entrada[['INDICE']])
-
         nueva_entrada_preparada = np.concatenate([nueva_entrada_indice, nueva_entrada_colors.reshape(1, -1)], axis=1)
 
-        if nueva_entrada_preparada.shape[1] != 16:
-            falta = 16 - nueva_entrada_preparada.shape[1]
-            nueva_entrada_preparada = np.hstack([nueva_entrada_preparada, np.zeros((1, falta), dtype=np.float32)])
+        falta = 16 - nueva_entrada_preparada.shape[1]
+        nueva_entrada_preparada = np.hstack([nueva_entrada_preparada, np.zeros((1, falta), dtype=np.float32)])
+        print(f"Nueva entrada preparada: {nueva_entrada_preparada}")
 
         try:
             prediccion = model.predict(nueva_entrada_preparada)
             resultado = 'Combinable' if prediccion > 0.5 else 'No combinable'
+            print(f"Predicción: {prediccion}, Resultado: {resultado}")
+
             outfits.append({
-                'prenda_superior': {
-                    'id': prenda_superior['id'],
-                    'category': prenda_superior['category'],
-                    'image': prenda_superior['image'],
-                },
-                'prenda_inferior': {
-                    'id': prenda_inferior['id'],
-                    'category': prenda_inferior['category'],
-                    'image': prenda_inferior['image'],
-                },
-                'zapato': {
-                    'id': prenda_zapato['id'],
-                    'category': prenda_zapato['category'],
-                    'image': prenda_zapato['image'],
-                },
+                'prenda_superior': prenda_superior,
+                'prenda_inferior': prenda_inferior,
+                'zapato': prenda_zapato,
                 'resultado': resultado
             })
         except Exception as e:

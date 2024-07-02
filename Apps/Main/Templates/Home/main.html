@@ -83,6 +83,7 @@
     </div>
   </div>
 </div>
+
 <div class="card-header swiper-container d-slider2">
   <div class="swiper-wrapper" style="display: flex; flex-wrap: wrap;">
     <div class="card-group" id="prendas-list">
@@ -91,16 +92,15 @@
           <div class="col-md-3 mb-3 prenda-item" data-category="{{ prenda.category }}" style="flex: 1 0 21%; margin: 10px;">
             <div class="card mx-3" style="width: 100%; height: 100%;">
               <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-                <img
-                  src="{{ prenda.garment.url }}"
-                  alt="Image of {{ prenda.category }}"
-                  class="card-img-top"
-                  style="max-width: 100%; max-height: 100%; object-fit: contain;"
-                />
+                <a href="{% url 'Main:detail_prenda' prenda.id %}">
+                  <img
+                    src="{{ prenda.garment.url }}"
+                    alt="Image of {{ prenda.category }}"
+                    class="card-img-top"
+                    style="max-width: 100%; max-height: 100%; object-fit: contain;"
+                  />
+                </a>
               </div>
-
-              <a href="{% url 'Main:detail_prenda' prenda.id %}" class="btn btn-primary">Ver detalle</a>
-
             </div>
           </div>
         {% endfor %}
@@ -112,6 +112,7 @@
     </div>
   </div>
 </div>
+
 
 <script src="{% static 'Assets/js/filtro_prendas.js' %}"></script>
 {% endblock %}

@@ -88,9 +88,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-center mt-3">
-                                <p class="font-weight-bold">{{ outfit.resultado }}</p>
-                            </div>
+                            <div class="col-lg-12 d-flex justify-content-center">
+                                <form method="post" action="{% url 'OutfitGeneration:outfit_saving' %}" onsubmit="submitOutfitForm(event, this)">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="prenda_superior_id" value="{{ outfit.prenda_superior.id }}">
+                                  <input type="hidden" name="prenda_inferior_id" value="{{ outfit.prenda_inferior.id }}">
+                                  <input type="hidden" name="zapato_id" value="{{ outfit.zapato.id }}">
+                                  <button type="submit" class="btn btn-outline-primary">Guardar Outfit</button>
+                                </form>
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -103,4 +109,46 @@
 {% endif %}
 
 </div>
+<script>
+    function submitOutfitForm(event, form) {
+      event.preventDefault();
+      const formData = new FormData(form);
+    
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-CSRFToken': form.querySelector('[name="csrfmiddlewaretoken"]').value,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // alert('Outfit guardado con éxito');
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Your work has been saved",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          } else {
+            // alert('Error al guardar el outfit: ' + data.error);
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Error al guardar el outfit"+data.error,
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Error al guardar el outfit",
+            });
+        });
+    }
+    </script>
 {% endblock %}

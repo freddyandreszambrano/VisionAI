@@ -27,16 +27,23 @@ class OutfitGenerationView(CreateView):
         context = super().get_context_data(**kwargs)
         all_clothes = Clothes.objects.all()
         
-        lista_categorias_superior = ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt']
-        lista_categorias_inferior = ['Trouser']
-        lista_categorias_zapatos = ['Sneaker', 'Sandal', 'Ankle boot']
+        print(f"All clothes: {all_clothes}")
         
-        prendas_superior = [g for g in all_clothes if g.category in lista_categorias_superior]
-        prendas_inferior = [g for g in all_clothes if g.category in lista_categorias_inferior]
-        prendas_zapatos = [g for g in all_clothes if g.category in lista_categorias_zapatos]
+        # Listas de categorías
+        categorias = {
+            'superior': ['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt'],
+            'inferior': ['Trouser'],
+            'zapatos': ['Sneaker', 'Sandal', 'Ankle boot']
+        }
+        
+        prendas = {key: [g for g in all_clothes if g.category in categorias[key]] for key in categorias}
 
-        if not prendas_superior or not prendas_inferior or not prendas_zapatos:
+        for key, value in prendas.items():
+            print(f"{key.capitalize()} clothes: {value}")
+
+        if not all(prendas.values()):
             context['error'] = "No hay suficientes prendas para generar un outfit."
+            print(context['error'])
             return context
 
         all_data_for_generation = [
@@ -49,16 +56,19 @@ class OutfitGenerationView(CreateView):
             for clothes in all_clothes
         ]
 
+        print(f"Data for generation: {all_data_for_generation}")
+
         model_path = 'Outfit_Generator_Model.h5'
         try:
-            outfits = generate_outfits(model_path, all_data_for_generation, num_outfits=3)  
+            outfits = generate_outfits(model_path, all_data_for_generation, num_outfits=3)
             context['outfits'] = outfits
+            print(f"Generated outfits: {outfits}")
         except Exception as e:
             logging.error("Error al generar outfits: %s", e)
             context['error'] = "Hubo un error al generar outfits. Inténtelo de nuevo más tarde."
+            print(context['error'], e)
 
         return context
-
 
 
     
@@ -91,16 +101,21 @@ class ShowSelectionView(TemplateView):
         context = super().get_context_data(**kwargs)
         selected_items = self.request.session.get('selected_items', {})
         
+        print(f"Selected items from session: {selected_items}")
+
         if not selected_items:
             context['error'] = "No se han seleccionado prendas."
+            print(context['error'])
             return context
         
-        if not (selected_items.get('superior') and selected_items.get('inferior') and selected_items.get('zapatos')):
-            context['error'] = "Debe elegir al menos una prenda de cada categoría (superior, inferior y zapatos)."
-            return context
+        # if not (selected_items.get('superior') and selected_items.get('inferior') and selected_items.get('zapatos')):
+        #     context['error'] = "Debe elegir al menos una prenda de cada categoría (superior, inferior y zapatos)."
+        #     print(context['error'])
+        #     return context
         
         ids_to_fetch = [int(item['id']) for item in selected_items.values() if item]
         selected_clothes = Clothes.objects.filter(id__in=ids_to_fetch)
+        print(f"Selected clothes from DB: {selected_clothes}")
 
         for clothes in selected_clothes:
             for key in selected_items:
@@ -109,12 +124,13 @@ class ShowSelectionView(TemplateView):
 
         model_path = 'Outfit_Generator_Model.h5'
         all_clothes = Clothes.objects.all()
+        print(f"All clothes from DB: {all_clothes}")
 
         all_data_for_generation = []
         for clothes in all_clothes:
             if (selected_items.get('superior') and clothes.id == int(selected_items['superior']['id'])) or \
-            (selected_items.get('inferior') and clothes.id == int(selected_items['inferior']['id'])) or \
-            (selected_items.get('zapatos') and clothes.id == int(selected_items['zapatos']['id'])):
+               (selected_items.get('inferior') and clothes.id == int(selected_items['inferior']['id'])) or \
+               (selected_items.get('zapatos') and clothes.id == int(selected_items['zapatos']['id'])):
                 continue  
 
             all_data_for_generation.append({
@@ -123,16 +139,17 @@ class ShowSelectionView(TemplateView):
                 'dominant_color': clothes.dominant_color,
                 'image': clothes.garment.url
             })
-        
 
         context['selected_items'] = selected_items
-        print(f'data seleccion de items con color {selected_items}')
+        print(f'Data for generation: {selected_items}')
         try:
             outfits = Fn_generate_outfits(model_path, selected_items, all_data_for_generation, num_outfits=3)
             context['outfits'] = outfits
+            print(f'Generated outfits: {outfits}')
         except Exception as e:
             logging.error("Error al generar outfits: %s", e)
             context['error'] = "Hubo un error al generar outfits. Inténtelo de nuevo más tarde."
+            print(context['error'], e)
 
         return context
     
@@ -231,18 +248,18 @@ class GuardarOutfitView(View):
         try:
             prenda_superior = Clothes.objects.get(id=prenda_superior_id)
             prenda_inferior = Clothes.objects.get(id=prenda_inferior_id)
-            zapato = Clothes.objects.get(id=zapato_id) if zapato_id else None
+            zapato = Clothes.objects.get(id=zapato_id)
 
-            outfit = Clothes(prenda_superior, prenda_inferior=prenda_inferior, zapato=zapato)
-            outfit.save()
+            outfit = OutfitSaving.objects.create(
+                top_clothes=prenda_superior,
+                bottom_clothes=prenda_inferior,
+                shoe_clothes=zapato
+            )
 
             return JsonResponse({'success': True})
         except Clothes.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Prenda no encontrada'})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
-
-        return JsonResponse({'success': False, 'error': 'Método no permitido'})
-
 
 
