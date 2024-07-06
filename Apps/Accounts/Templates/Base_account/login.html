@@ -1,12 +1,20 @@
 {% extends "Base_account/Base_account.html" %}
-{%load static%}
+{% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <form action="" method="POST">
         {% csrf_token %}
         <h1>Inicio Sesión</h1>
-        {{ form | crispy }}
+        {{ form | crispy }} 
 
         <button class="button" type="submit">Iniciar sesión</button>    
     </form>
@@ -14,7 +22,13 @@
         <h1>Hola, Bienvenido!</h1>
         <p>Ingresa tus detalles personales para iniciar sesión</p>
         <button onclick="window.location.href='{% url 'Account:register' %}'" class="button" style="border-color: #FFFFFF;">Crear cuenta</button>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     </div>
 
 {% endblock %}
-

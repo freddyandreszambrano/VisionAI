@@ -3,15 +3,26 @@
 {% block content %}
 {% load crispy_forms_tags %}
 
-<div class="overlay-container" style="width:100%; left: 100%;" >
-    <form action="" method="POST">
+<div class="overlay-container" style="width:100%; left: 100%;">
+
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+        <strong>Error:</strong> {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form action="" method="POST" class="{% if messages %}error-form{% endif %}" style="justify-content: {% if messages %}start{% else %}center{% endif %};">
         {% csrf_token %}
         <h1>Crear cuenta</h1>
         {{ form | crispy }}
 
         <button class="button" type="submit">Crear cuenta</button>
     </form>
+
 </div>
+
 <div class="overlay-panel overlay-right" style="background: linear-gradient(to right, #FF4B2B, #FF416C); color: #FFFFFF; width: 100%;">
     <h1>Hola, Bienvenido!</h1>
     <p>Regístrate ingresando tus detalles personales y comienza tu viaje con nosotros</p>
@@ -19,15 +30,3 @@
 </div>
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
