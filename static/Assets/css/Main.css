@@ -17,7 +17,7 @@
   overflow: hidden;
 }
 
-.button_add, .button__icon, .button__text {
+.button_add, .button_icon, .button_text {
   transition: all 0.3s;
 }
 
@@ -105,4 +105,58 @@
 .radio-inputs .radio input:checked + .name {
   background-color: #fff;
   font-weight: 600;
+}
+
+/* New Styles for Image Containers */
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.image-container img {
+    width: 200px;
+    height: auto;
+    margin: 10px;
+    object-fit: cover;
+}
+
+@media (max-width: 600px) {
+    .image-container img {
+        width: 100px;
+    }
+}
+
+.card-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.prenda-item {
+    flex: 1 0 21%;
+    max-width: 21%;
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.card img {
+    width: 200px; /* Tamaño fijo para todas las imágenes */
+    height: 200px; /* Tamaño fijo para todas las imágenes */
+    object-fit: cover;
+    border: 3px solid #cccccc; /* Borde uniforme */
+}
+
+.card img:hover {
+    border-color: #b61084;
 }
