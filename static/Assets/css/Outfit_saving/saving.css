@@ -1,0 +1,11 @@
+.icon {
+    font-size: 3rem; /* Ajusta el tamaño del icono */
+    color: black; /* Color plomo */
+}
+
+.desc {
+    font-size: 1.2rem; /* Ajusta el tamaño del texto */
+    color: #6c757d; /* Color plomo */
+    margin-top: 1rem; /* Espacio entre el icono y el texto */
+}
+  

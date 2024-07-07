@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    
+  
   const filterButtons = document.getElementById('filter-buttons');
   const prendasList = Array.from(document.getElementsByClassName('prenda-item'));
   const noPrendasMessage = document.createElement('div');

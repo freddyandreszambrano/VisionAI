@@ -76,12 +76,26 @@ class OutfitGenerationView(CreateView):
 class SeleccionPrendasOutfitGeneratorView(TemplateView):
     model = Clothes
     template_name = 'Seleccion_Prenda/SeleccionPrenda.html'
-
-    def get_context_data(self, **kwargs):
+    
+    def get_context_data(self, **kwargs): 
         context = super().get_context_data(**kwargs)
-        context['ctx_Prendas_superior'] = Clothes.objects.filter(category__in=['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt'])
-        context['ctx_Prendas_inferior'] = Clothes.objects.filter(category__in=['Trouser'])
-        context['ctx_zapato'] = Clothes.objects.filter(category__in=['Sneaker', 'Sandal', 'Ankle boot'])
+        Data = Clothes.objects.all()
+        if not Data:
+            context['error'] = "No hay suficientes prendas para generar un outfit."
+            return context
+        
+        Data_prendas_superior =   Clothes.objects.filter(category__in=['Coat', 'Dress', 'Pullover', 'Shirt', 'T-shirt'])
+        Data_prendas_inferior =   Clothes.objects.filter(category__in=['Trouser'])
+        Data_prendas_zapato =   Clothes.objects.filter(category__in=['Sneaker', 'Sandal', 'Ankle boot'])
+        
+        if  Data_prendas_superior and  Data_prendas_inferior and  Data_prendas_zapato:
+            context['ctx_Prendas_superior'] = Data_prendas_superior
+            context['ctx_Prendas_inferior'] = Data_prendas_inferior
+            context['ctx_zapato'] = Data_prendas_zapato
+        else:
+            context['error'] = "No hay suficientes prendas para Seleccionar prendas"
+            return context
+        
         return context
 
 
@@ -108,10 +122,7 @@ class ShowSelectionView(TemplateView):
             print(context['error'])
             return context
         
-        # if not (selected_items.get('superior') and selected_items.get('inferior') and selected_items.get('zapatos')):
-        #     context['error'] = "Debe elegir al menos una prenda de cada categoría (superior, inferior y zapatos)."
-        #     print(context['error'])
-        #     return context
+
         
         ids_to_fetch = [int(item['id']) for item in selected_items.values() if item]
         selected_clothes = Clothes.objects.filter(id__in=ids_to_fetch)
@@ -124,7 +135,6 @@ class ShowSelectionView(TemplateView):
 
         model_path = 'Outfit_Generator_Model.h5'
         all_clothes = Clothes.objects.all()
-        print(f"All clothes from DB: {all_clothes}")
 
         all_data_for_generation = []
         for clothes in all_clothes:

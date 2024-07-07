@@ -26,11 +26,18 @@
     <h5 style="text-align: center">Outfit Generado</h5>
     <div class="row">
       {% if error %}
-        <p>{{ error }}</p>
+        <div class="d-flex justify-content-center align-items-center" id="errorMessage">
+          <div class="error">
+              <div class="error__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"><path fill="#393a37" d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z"></path></svg>
+              </div>
+              <div class="error__title">{{ error }}</div>
+          </div>
+        </div>
       {% else %}
         {% if outfits %}
           {% for outfit in outfits %}
-            <div class="row mb-4">
+            <div class="row mb-4 outfit-card">
               <div class="col-lg-4 col-md-6 mb-4">
                 <h6>Prenda Superior</h6>
                 <div class="img-thumbnail">
@@ -42,7 +49,7 @@
                   />
                 </div>
               </div>
-              <div class="col-lg-4 col-md-6 mb-4">
+              <div class="col-lg-4 col-md-6 mb-4 container_generation">
                 <h6>Prenda Inferior</h6>
                 <div class="img-thumbnail">
                   <img
@@ -82,6 +89,24 @@
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+  ScrollReveal().reveal('.outfit-card', {
+    duration: 1000,
+    origin: 'bottom',
+    distance: '50px',
+    easing: 'ease-in-out',
+    reset: false
+  });
+
+  ScrollReveal().reveal('.container_generation', {
+    duration: 1000,
+    origin: 'top',
+    distance: '50px',
+    easing: 'ease-in-out',
+    reset: false
+  });
+});
+
 function submitOutfitForm(event, form) {
   event.preventDefault();
   const formData = new FormData(form);
@@ -96,30 +121,28 @@ function submitOutfitForm(event, form) {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        // alert('Outfit guardado con éxito');
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Your work has been saved",
+          title: "Tu trabajo ha sido guardado",
           showConfirmButton: false,
           timer: 1500
         });
       } else {
-        // alert('Error al guardar el outfit: ' + data.error);
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Error al guardar el outfit"+data.error,
+          text: "Error al guardar el outfit: " + data.error,
         });
       }
     })
     .catch(error => {
       console.error('Error:', error);
       Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Error al guardar el outfit",
-        });
+        icon: "error",
+        title: "Oops...",
+        text: "Error al guardar el outfit",
+      });
     });
 }
 </script>

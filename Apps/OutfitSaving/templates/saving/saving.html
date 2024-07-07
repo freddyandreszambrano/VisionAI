@@ -7,11 +7,11 @@
       <div class="row">
         {% if outfits %}
           {% for outfit in outfits %}
-            <div class="col-md-6">
+            <div class="col-md-6 outfit-card">
               <div class="card mb-4">
                 <div class="card-body text-center">
                   <h5 class="card-title">Outfit {{ forloop.counter }}</h5>
-                  <div class="row">
+                  <div class="row row_saving">
                     <div class="col-md-4">
                       <img src="{{ outfit.top_clothes.garment.url }}" alt="Prenda Superior" class="img-fluid" />
                     </div>
@@ -31,10 +31,36 @@
             </div>
           {% endfor %}
         {% else %}
-          <p>No hay outfits guardados.</p>
+          <div class="container mt-5">
+              <div class="card text-center bg-light no-outfits">
+                  <div class="card-body">
+                      <i class='bx bx-sad icon'></i>
+                      <p class="desc">No hay outfits guardados.</p>
+                  </div>
+              </div>
+          </div>
         {% endif %}
       </div>
     </div>
   </div>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      ScrollReveal().reveal('.outfit-card', {
+        duration: 1000,
+        origin: 'bottom',
+        distance: '50px',
+        easing: 'ease-in-out',
+        reset: false
+      });
+
+      ScrollReveal().reveal('.no-outfits', {
+        duration: 1000,
+        origin: 'top',
+        distance: '50px',
+        easing: 'ease-in-out',
+        reset: false
+      });
+    });
+  </script>
 {% endblock %}

@@ -21,6 +21,9 @@
                             <div class="form-group">
                                 <label for="id_categoria">Categoría:</label>
                                 {{ form.category }}
+                                <div id="categoryIcon" class="text-center mt-2">
+                                    <i class='bx bx-category icon'></i> <!-- Icono por defecto, se actualizará con JavaScript -->
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="id_categoria">Tipo:</label>
@@ -74,6 +77,32 @@ document.getElementById("cancelButton").addEventListener("click", function() {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+    const categoryIcon = document.querySelector('#categoryIcon .icon');
+    const categorySelect = document.querySelector('#id_categoria');
+
+    const categoryIcons = {
+        "Ankle boot": 'bx bx-boot',
+        "Bag": 'bx bx-bag',
+        "Coat": 'bx bx-shopping-bag',
+        "Dress": 'bx bx-dress',
+        "Pullover": 'bx bx-sweater',
+        "Sandal": 'bx bx-sandal',
+        "Shirt": 'bx bx-shirt',
+        "Sneaker": 'bx bx-sneaker',
+        "T-shirt": 'bx bx-t-shirt',
+        "Trouser": 'bx bx-pants'
+    };
+
+    function updateIcon() {
+        const selectedCategory = categorySelect.value;
+        const iconClass = categoryIcons[selectedCategory] || 'bx bx-category'; // Icono por defecto
+        categoryIcon.innerHTML = `<i class='${iconClass} icon'></i>`;
+    }
+
+    categorySelect.addEventListener('change', updateIcon);
+    updateIcon();
+
+
         function rgbToHex(r, g, b) {
             return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
         }
