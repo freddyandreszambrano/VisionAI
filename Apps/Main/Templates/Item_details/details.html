@@ -1,27 +1,31 @@
 {% extends 'components/Base.html' %}
 {% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{ % static 'Assets/css/detail.css' %}">
+{% endblock head %}
+
 {% block content %}
-<div class="container mt-5">
-    <div class="card detail-card">
-        <div class="card-header text-center bg-primary text-white">
+<div class="detail-container mt-5">
+    <div class="detail-card">
+        <div class="detail-card-header text-center bg-primary text-white">
             <h1>Detalle de Prenda</h1>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                    <img src="{{ prenda.garment.url }}" alt="Image of {{ prenda.category }}" class="img-fluid rounded shadow-sm">
+            <div class="row detail-row">
+                <div class="col-12 col-md-6 detail-col-md-6 d-flex align-items-center justify-content-center">
+                    <img src="{{ prenda.garment.url }}" alt="Image of {{ prenda.category }}" class="img-fluid detail-img-fluid rounded shadow-sm">
                 </div>
-                <div class="col-12 col-md-6 mt-3 mt-md-0">
+                <div class="col-12 col-md-6 detail-col-md-6 mt-3 mt-md-0">
                     <h3 class="text-primary">Categoría: <span class="text-dark">{{ prenda.category }}</span></h3>
                     <h3 class="text-primary">Tipo: <span class="text-dark">{{ prenda.type }}</span></h3>
                     <h3 class="text-primary">Color Dominante:</h3>
-                    <div id="colorDisplay" class="color-box mt-2"></div>
+                    <div id="colorDisplay" class="detail-color-box mt-2"></div>
                     <div class="mt-4 d-flex justify-content-center justify-content-md-start">
-                        <button type="button" class="btn btn-secondary mx-2" onclick="goBack()">Regresar</button>
+                        <button type="button" class="btn btn-secondary detail-btn detail-btn-secondary mx-2" onclick="goBack()">Regresar</button>
                         <form method="post" action="{% url 'Main:delete_prenda' prenda.id %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger mx-2">Eliminar</button>
+                            <button type="submit" class="btn btn-danger detail-btn detail-btn-danger mx-2">Eliminar</button>
                         </form>
                     </div>
                 </div>
@@ -29,70 +33,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    .container {
-        max-width: 900px;
-        margin: auto;
-    }
-
-    .detail-card {
-        border: 2px solid #d3d3d3;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-
-    .img-fluid {
-        max-height: 400px;
-        object-fit: contain;
-        border: 2px solid #d3d3d3;
-        padding: 5px;
-    }
-
-    .color-box {
-        width: 40px;
-        height: 40px;
-        border: 2px solid #000;
-        display: inline-block;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        border: none;
-    }
-
-    .btn-secondary:hover {
-        background-color: #5a6268;
-    }
-
-    .btn-danger {
-        background-color: #dc3545;
-        border: none;
-    }
-
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
-
-    @media (max-width: 768px) {
-        .row {
-            flex-direction: column;
-            text-align: center;
-        }
-        .col-md-6 {
-            margin-top: 20px;
-        }
-        .btn {
-            margin-bottom: 10px;
-        }
-    }
-</style>
-
 <script>
     function goBack() {
         window.history.back();
@@ -108,13 +48,12 @@
             const colorBox = document.getElementById('colorDisplay');
             const hexColor = rgbToHex(r, g, b);
 
-            colorBox.style.backgroundColor = rgb(${r}, ${g}, ${b});
-            colorBox.title = RGB: ${r}, ${g}, ${b} - HEX: ${hexColor};
+            colorBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            colorBox.title = `RGB: ${r}, ${g}, ${b} - HEX: ${hexColor}`;
         }
 
         const dominantColor = JSON.parse('{{ prenda.dominant_color|escapejs }}');
         displayColor(dominantColor);
     });
 </script>
-
 {% endblock content %}
