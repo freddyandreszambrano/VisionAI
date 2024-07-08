@@ -1,10 +1,6 @@
 {% extends 'components/Base.html' %}
 {% load static %}
 
-{% block head %}
-<link rel="stylesheet" href="{ % static 'Assets/css/detail.css' %}">
-{% endblock head %}
-
 {% block content %}
 <div class="detail-container mt-5">
     <div class="detail-card">
@@ -33,6 +29,70 @@
         </div>
     </div>
 </div>
+<style>
+    .detail-container {
+        max-width: 900px;
+        margin: auto;
+    }
+    
+    .detail-card {
+        border: 2px solid #d3d3d3;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .detail-card-header {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    
+    .detail-img-fluid {
+        max-height: 400px;
+        object-fit: contain;
+        border: 2px solid #d3d3d3;
+        padding: 5px;
+    }
+    
+    .detail-color-box {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #000;
+        display: inline-block;
+    }
+    
+    .detail-btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+    
+    .detail-btn-secondary:hover {
+        background-color: #5a6268;
+    }
+    
+    .detail-btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+    
+    .detail-btn-danger:hover {
+        background-color: #c82333;
+    }
+    
+    @media (max-width: 768px) {
+        .detail-row {
+            flex-direction: column;
+            text-align: center;
+        }
+    
+        .detail-col-md-6 {
+            margin-top: 20px;
+        }
+    
+        .detail-btn {
+            margin-bottom: 10px;
+        }
+    }
+</style>
 <script>
     function goBack() {
         window.history.back();
