@@ -29,7 +29,7 @@
                 <div class="card-header">
                     <h3 class="card-title text-center">Selecciona las prendas</h3>
                 </div>
-                <div class="card-body">   
+                <div class="card-body" style="width: 75%; height: 75%;">   
                     <!-- Carrusel de Prendas Superiores -->
                     <div class="row mb-4">
                         <div class="col-md-12">
@@ -78,7 +78,7 @@
                                 <div class="carousel-inner">
                                     {% for category in ctx_Prendas_inferior %}
                                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                            <div class="d-flex flex-column align-items-center position-relative" style="height: 300px;">
+                                            <div class="d-flex flex-column align-items-center position-relative" style="height: 300%;">
                                                 <div class="image-container position-relative d-block w-50">    
                                                     <img src="{{ category.garment.url }}" class="d-block w-50 mx-auto mb-3" alt="{{ category.id }},{{ category.category }}">
                                                     <div class="selector-circle" data-id="{{ category.id }}" data-type="inferior">
