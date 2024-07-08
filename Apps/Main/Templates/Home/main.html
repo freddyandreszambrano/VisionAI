@@ -85,24 +85,19 @@
   </div>
 </div>
 <div class="card-header swiper-container d-slider2">
-  <div class="swiper-wrapper" style="display: flex; justify-content: center; flex-wrap: wrap;">
     <div class="card-group imagen-container" id="prendas-list">
       {% if prendas %}
         {% for prenda in prendas %}
           <div class="col-md-3 mb-3 prenda-item imagen-container prenda_main" data-category="{{ prenda.category }}" style="flex: 1 0 21%; max-width: 21%; margin: 10px;">
             <div class="card mx-3" style="width: 100%; height: 100%;">
-              <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-                <a href="{%url 'Main:detail_prenda' prenda.id %}">
+                <a href="{% url 'Main:detail_prenda' prenda.id %}">
                   <img
                     src="{{ prenda.garment.url }}"
                     alt="Image of {{ prenda.category }}"
-
                     class="card-img-top prenda-img"
-                    style="max-width: 100%; max-height: 1000% ;object-fit: contain;"
-
+                    style="max-width: 1000%; max-height: 1000%; object-fit: contain; margin-rigth:100px;"
                   />
                 </a>
-              </div>
             </div>
           </div>
         {% endfor %}
@@ -112,26 +107,7 @@
         </div>
       {% endif %}
     </div>
-  </div>
 </div>
 
 <script src="{% static 'Assets/js/filtro_prendas.js' %}"></script>
-<script>
-  ScrollReveal().reveal('.prenda-item', {
-    duration: 1000,
-    origin: 'bottom',
-    distance: '50px',
-    easing: 'ease-in-out',
-    reset: true
-  });
-
-  ScrollReveal().reveal('.imagen-container', {
-    duration: 1000,
-    origin: 'top',
-    distance: '50px',
-    easing: 'ease-in-out',
-    reset: true
-  });
-
-</script>
 {% endblock %}
