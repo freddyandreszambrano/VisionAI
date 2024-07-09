@@ -56,11 +56,14 @@ class OutfitGenerationView(CreateView):
             for clothes in all_clothes
         ]
 
-        print(f"Data for generation: {all_data_for_generation}")
+        num_outfits = min(len(prendas['superior']), len(prendas['inferior']), len(prendas['zapatos']))
+        print(f"Número de outfits a generar: {num_outfits}")
+
+
 
         model_path = 'Outfit_Generator_Model.h5'
         try:
-            outfits = generate_outfits(model_path, all_data_for_generation, num_outfits=3)
+            outfits = generate_outfits(model_path, all_data_for_generation, num_outfits)
             context['outfits'] = outfits
             print(f"Generated outfits: {outfits}")
         except Exception as e:
@@ -153,7 +156,7 @@ class ShowSelectionView(TemplateView):
         context['selected_items'] = selected_items
         print(f'Data for generation: {selected_items}')
         try:
-            outfits = Fn_generate_outfits(model_path, selected_items, all_data_for_generation, num_outfits=3)
+            outfits = Fn_generate_outfits(model_path, selected_items, all_data_for_generation)
             context['outfits'] = outfits
             print(f'Generated outfits: {outfits}')
         except Exception as e:

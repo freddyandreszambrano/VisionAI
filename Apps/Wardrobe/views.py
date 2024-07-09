@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from Neural_Network_Model.Convolutional_Neural_Network.Predict_IA import Fn_Main
 from Neural_Network_Model.Get_colors.prediccion_colores_img import Fn_segmentar_y_analizar_prenda
 
+#ingresa y guarda la imagen
 class ClothesImageView(CreateView):
     model = Clothes
     form_class = ClothesImageForm

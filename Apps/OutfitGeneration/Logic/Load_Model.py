@@ -23,7 +23,7 @@ def load_tipo_de_combinaciones(path='Color_combinations_type_classes.json'):
     except Exception as e:
         raise RuntimeError(f"Error al cargar el archivo de combinaciones: {e}")
 
-def generate_outfits(model_path, garment_data, num_outfits=3):
+def generate_outfits(model_path, garment_data, num_outfits):
     try:
         model = load_model(model_path)
         print(f"Modelo cargado correctamente desde {model_path}")

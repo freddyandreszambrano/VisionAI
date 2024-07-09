@@ -15,7 +15,7 @@ def color_str_to_list(color_str):
 def normalize_colors(color_list):
     return np.array(color_list) / 255.0
 
-def Fn_generate_outfits(model_path, selected_items, garment_data, num_outfits=3):
+def Fn_generate_outfits(model_path, selected_items, garment_data):
     try:
         model = load_model(model_path)
         print("Modelo cargado exitosamente.")

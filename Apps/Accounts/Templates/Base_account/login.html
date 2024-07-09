@@ -22,13 +22,6 @@
         <h1>Hola, Bienvenido!</h1>
         <p>Ingresa tus detalles personales para iniciar sesión</p>
         <button onclick="window.location.href='{% url 'Account:register' %}'" class="button" style="border-color: #FFFFFF;">Crear cuenta</button>
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-danger" role="alert">
-                <strong>Error:</strong> {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
     </div>
 
 {% endblock %}
