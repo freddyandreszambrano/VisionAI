@@ -2,8 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=django,python,visualstudiocode
 
 # ENTORNOS VIRTUALES 
-entOutfits/
-EntOutfit/
+EntEcofertil/
 
 # DIRECTORIOS DE IMAGENES PARA ENTRENAMIENTO
 Training Data/
